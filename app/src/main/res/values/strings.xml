@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Touristo</string>
+
+    <string name="feature_add_photo_title">Новая публикация</string>
+</resources>
