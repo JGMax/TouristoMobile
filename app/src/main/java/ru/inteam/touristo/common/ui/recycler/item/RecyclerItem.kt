@@ -9,6 +9,7 @@ import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent
 import ru.inteam.touristo.common.ui.recycler.clicks.LongClickEvent
 import java.lang.ref.WeakReference
 
+@Suppress("UNCHECKED_CAST")
 abstract class RecyclerItem<B : ViewBinding, ME> {
     abstract val layoutId: Int
     open val itemId: String = this::class.java.canonicalName ?: ""
