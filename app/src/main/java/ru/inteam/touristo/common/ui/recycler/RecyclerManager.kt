@@ -52,6 +52,7 @@ class RecyclerManagerBuilder(private var recyclerView: RecyclerView?) {
     private var layoutManager: RecyclerView.LayoutManager =
         LinearLayoutManager(recyclerView?.context)
     private var adapter: RecyclerAdapter? = null
+    private var decorations: Array<out RecyclerView.ItemDecoration> = emptyArray()
 
     fun diffCallback(diffCallback: DiffUtil.ItemCallback<RecyclerItem<*>>): RecyclerManagerBuilder {
         this.diffCallback = diffCallback
@@ -80,11 +81,17 @@ class RecyclerManagerBuilder(private var recyclerView: RecyclerView?) {
         return this
     }
 
+    fun decorations(vararg decorations: RecyclerView.ItemDecoration): RecyclerManagerBuilder {
+        this.decorations = decorations
+        return this
+    }
+
     fun build(): RecyclerManager {
         val adapter = adapter ?: RecyclerAdapter(paginationOwner, diffCallback)
         recyclerView?.let {
             it.layoutManager = layoutManager
             it.adapter = adapter
+            decorations.forEach(it::addItemDecoration)
         }
         recyclerView = null
         return RecyclerManager(adapter)
