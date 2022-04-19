@@ -26,6 +26,16 @@ abstract class RecyclerItem<B : ViewBinding> {
     fun bindTo(binding: ViewBinding) = (binding as B).bind()
     fun bindTo(binding: ViewBinding, payloads: MutableList<Any>) = (binding as B).bind(payloads)
 
+    @JvmName("clicksEvent")
+    protected fun clicks(flow: Flow<ClickEvent>) {
+        clicks?.tryEmit(flow)
+    }
+
+    @JvmName("longClicksEvent")
+    protected fun clicks(flow: Flow<LongClickEvent>) {
+        longClicks?.tryEmit(flow)
+    }
+
     protected fun clicks(flow: Flow<View>) {
         clicks?.tryEmit(flow.map { ClickEvent(this, WeakReference(it)) })
     }
