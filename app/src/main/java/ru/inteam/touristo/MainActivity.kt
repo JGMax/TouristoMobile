@@ -32,18 +32,18 @@ suspend fun getData(params: Int): Data {
 
 data class Uitem(
     val text: String
-) : RecyclerItem<ItemTestBinding>() {
+) : RecyclerItem<ItemTestBinding, Uitem>() {
     override val layoutId: Int = R.layout.item_test
 
     override fun provideViewBinding(view: View): ItemTestBinding {
         return ItemTestBinding.bind(view)
     }
 
-    override fun ItemTestBinding.bind() {
+    override fun ItemTestBinding.bind(me: Uitem) {
         text.text = this@Uitem.text
     }
 
-    override fun ItemTestBinding.init() {
+    override fun ItemTestBinding.initHolder() {
         Log.e("init", "init")
         clicks(button.clicks())
     }
@@ -51,18 +51,21 @@ data class Uitem(
 
 data class Titem(
     val text: String
-) : RecyclerItem<ItemTestEBinding>() {
-    override val layoutId: Int = R.layout.item_test
+) : RecyclerItem<ItemTestEBinding, Titem>() {
+    override val layoutId: Int = R.layout.item_test_e
 
     override fun provideViewBinding(view: View): ItemTestEBinding {
         return ItemTestEBinding.bind(view)
     }
 
-    override fun ItemTestEBinding.bind() {
-        text.text = this@Titem.text
+    override fun ItemTestEBinding.bind(me: Titem) {
+        // Use var
+        text.text = me.text
+        // Use context
+        text2.text = this@Titem.text + "2"
     }
 
-    override fun ItemTestEBinding.init() {
+    override fun ItemTestEBinding.initHolder() {
         Log.e("init", "init")
         clicks(button.clicks())
     }
@@ -90,7 +93,7 @@ class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
 
         lifecycleScope.launchWhenResumed {
             launch {
-                recyclerManager.clicks<Uitem>(R.id.button)
+                recyclerManager.clicks<Titem>(R.id.button)
                     .onEach { Log.e("click", it.toString()) }
                     .collect()
             }

@@ -17,6 +17,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Item text" />
 
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Item text" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

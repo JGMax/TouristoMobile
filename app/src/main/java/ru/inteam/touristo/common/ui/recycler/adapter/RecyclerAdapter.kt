@@ -19,13 +19,13 @@ import ru.inteam.touristo.common.ui.view.inflate
 
 open class RecyclerAdapter(
     private val paginationOwner: PaginationOwner?,
-    diffCallback: DiffUtil.ItemCallback<RecyclerItem<*>>
+    diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>
 ) : RecyclerView.Adapter<RecyclerViewHolder>(), ClicksOwner {
     override val clicksManager = ClicksManager()
 
     val pageFlow: Flow<PageEvent>? = paginationOwner?.pageEventFlow?.asSharedFlow()
 
-    private val differ: AsyncListDiffer<RecyclerItem<*>> by lazy {
+    private val differ: AsyncListDiffer<RecyclerItem<*, *>> by lazy {
         AsyncListDiffer(this, diffCallback)
     }
     private var asyncClicksAttachmentJob: Job? = null
@@ -42,7 +42,7 @@ open class RecyclerAdapter(
         }
     }
 
-    fun submitList(list: List<RecyclerItem<*>>) {
+    fun submitList(list: List<RecyclerItem<*, *>>) {
         differ.submitList(list)
         asyncClicksAttachmentJob?.cancel()
         asyncClicksAttachmentJob = CoroutineScope(Dispatchers.Default).launch {

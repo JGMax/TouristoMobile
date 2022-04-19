@@ -11,7 +11,7 @@ class RecyclerViewHolder(
     private var isFresh = true
     private lateinit var binding: ViewBinding
 
-    fun bind(item: RecyclerItem<*>) {
+    fun bind(item: RecyclerItem<*, *>) {
         if (isFresh) {
             binding = item.provideViewBinding(itemView)
             item.initBy(binding)
@@ -20,7 +20,7 @@ class RecyclerViewHolder(
         item.bindTo(binding)
     }
 
-    fun bind(item: RecyclerItem<*>, payloads: MutableList<Any>) {
+    fun bind(item: RecyclerItem<*, *>, payloads: MutableList<Any>) {
         item.bindTo(binding, payloads)
     }
 }

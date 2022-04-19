@@ -9,7 +9,7 @@ import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent
 import ru.inteam.touristo.common.ui.recycler.clicks.LongClickEvent
 import java.lang.ref.WeakReference
 
-abstract class RecyclerItem<B : ViewBinding> {
+abstract class RecyclerItem<B : ViewBinding, ME> {
     abstract val layoutId: Int
     open val itemId: String = this::class.java.canonicalName ?: ""
 
@@ -18,13 +18,15 @@ abstract class RecyclerItem<B : ViewBinding> {
 
     abstract fun provideViewBinding(view: View): B
 
-    protected open fun B.init() = Unit
-    protected open fun B.bind() = Unit
-    protected open fun B.bind(payloads: MutableList<Any>) = Unit
+    protected open fun B.initHolder() = Unit
+    protected open fun B.bind(me: ME) = Unit
+    protected open fun B.bind(me: ME, payloads: MutableList<Any>) = Unit
 
-    fun initBy(binding: ViewBinding) = (binding as B).init()
-    fun bindTo(binding: ViewBinding) = (binding as B).bind()
-    fun bindTo(binding: ViewBinding, payloads: MutableList<Any>) = (binding as B).bind(payloads)
+    fun initBy(binding: ViewBinding) = (binding as B).initHolder()
+    fun bindTo(binding: ViewBinding) = (binding as B).bind(this as ME)
+    fun bindTo(binding: ViewBinding, payloads: MutableList<Any>) {
+        return (binding as B).bind(this as ME, payloads)
+    }
 
     @JvmName("clicksEvent")
     protected fun clicks(flow: Flow<ClickEvent>) {

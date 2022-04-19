@@ -15,31 +15,31 @@ class ClicksManager {
     val clicks = clicksUnit.flattenMerge()
     val longClicks = longClicksUnit.flattenMerge()
 
-    inline fun <reified T : RecyclerItem<*>> clicks(): Flow<ClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ClickEvent> {
         return clicks.filter { it.item is T }
     }
 
-    inline fun <reified T : RecyclerItem<*>> clicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, *>> clicks(viewId: Int): Flow<T> {
         return clicks
             .filter { it.view.get()?.id == viewId }
             .mapNotNull { it.item as? T }
     }
 
-    inline fun <reified T : RecyclerItem<*>> longClicks(): Flow<LongClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> longClicks(): Flow<LongClickEvent> {
         return longClicks.filter { it.item is T }
     }
 
-    inline fun <reified T : RecyclerItem<*>> longClicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, *>> longClicks(viewId: Int): Flow<T> {
         return longClicks
             .filter { it.view.get()?.id == viewId }
             .mapNotNull { it.item as? T }
     }
 
-    fun attachClicks(item: RecyclerItem<*>) {
+    fun attachClicks(item: RecyclerItem<*, *>) {
         item.attachClicks(clicksUnit)
     }
 
-    fun attachLongClicks(item: RecyclerItem<*>) {
+    fun attachLongClicks(item: RecyclerItem<*, *>) {
         item.attachLongClicks(longClicksUnit)
     }
 }

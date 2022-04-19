@@ -25,36 +25,36 @@ class RecyclerManager(
             return adapter.pageFlow
         }
 
-    fun submitList(items: List<RecyclerItem<*>>) {
+    fun submitList(items: List<RecyclerItem<*, *>>) {
         adapter.submitList(items)
     }
 
-    inline fun <reified T : RecyclerItem<*>> clicks(): Flow<ClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ClickEvent> {
         return clicksManager.clicks<T>()
     }
 
-    inline fun <reified T : RecyclerItem<*>> clicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, *>> clicks(viewId: Int): Flow<T> {
         return clicksManager.clicks(viewId)
     }
 
-    inline fun <reified T : RecyclerItem<*>> longClicks(): Flow<LongClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> longClicks(): Flow<LongClickEvent> {
         return clicksManager.longClicks<T>()
     }
 
-    inline fun <reified T : RecyclerItem<*>> longClicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, *>> longClicks(viewId: Int): Flow<T> {
         return clicksManager.longClicks(viewId)
     }
 }
 
 class RecyclerManagerBuilder(private var recyclerView: RecyclerView?) {
-    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem<*>> = DefaultDiffCallback()
+    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>> = DefaultDiffCallback()
     private var paginationOwner: PaginationOwner? = null
     private var layoutManager: RecyclerView.LayoutManager =
         LinearLayoutManager(recyclerView?.context)
     private var adapter: RecyclerAdapter? = null
     private var decorations: Array<out RecyclerView.ItemDecoration> = emptyArray()
 
-    fun diffCallback(diffCallback: DiffUtil.ItemCallback<RecyclerItem<*>>): RecyclerManagerBuilder {
+    fun diffCallback(diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>): RecyclerManagerBuilder {
         this.diffCallback = diffCallback
         return this
     }
