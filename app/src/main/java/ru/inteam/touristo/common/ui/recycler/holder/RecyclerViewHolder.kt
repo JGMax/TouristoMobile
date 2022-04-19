@@ -4,18 +4,18 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
+import java.util.concurrent.atomic.AtomicBoolean
 
 class RecyclerViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view) {
-    private var isFresh = true
+    private var isFresh = AtomicBoolean(true)
     private lateinit var binding: ViewBinding
 
     fun bind(item: RecyclerItem<*, *>) {
-        if (isFresh) {
+        if (isFresh.getAndSet(false)) {
             binding = item.provideViewBinding(itemView)
             item.initBy(binding)
-            isFresh = false
         }
         item.bindTo(binding)
     }

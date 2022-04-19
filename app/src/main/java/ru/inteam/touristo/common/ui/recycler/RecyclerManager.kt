@@ -18,15 +18,18 @@ class RecyclerManager(
     private val adapter: RecyclerAdapter
 ) : ClicksOwner by adapter {
 
-    private val pageFlow: Flow<PageEvent>
+    val pageFlow: Flow<PageEvent>
         get() {
             if (adapter.pageFlow == null)
                 error("Pagination is disabled")
             return adapter.pageFlow
         }
 
-    fun submitList(items: List<RecyclerItem<*, *>>) {
-        adapter.submitList(items)
+    val itemCount: Int
+        get() = adapter.itemCount
+
+    fun submitList(items: List<RecyclerItem<*, *>>, onCommit: () -> Unit = {}) {
+        adapter.submitList(items, onCommit)
     }
 
     inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ClickEvent> {

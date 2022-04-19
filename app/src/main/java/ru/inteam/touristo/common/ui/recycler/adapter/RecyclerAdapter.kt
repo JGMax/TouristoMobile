@@ -42,8 +42,8 @@ open class RecyclerAdapter(
         }
     }
 
-    fun submitList(list: List<RecyclerItem<*, *>>) {
-        differ.submitList(list)
+    fun submitList(list: List<RecyclerItem<*, *>>, onCommit: () -> Unit = {}) {
+        differ.submitList(list, onCommit)
         asyncClicksAttachmentJob?.cancel()
         asyncClicksAttachmentJob = CoroutineScope(Dispatchers.Default).launch {
             for (item in list) {
