@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import ru.inteam.touristo.common.ui.recycler.adapter.RecyclerAdapter
-import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent
+import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.common.ui.recycler.clicks.ClicksOwner
-import ru.inteam.touristo.common.ui.recycler.clicks.LongClickEvent
+import ru.inteam.touristo.common.ui.recycler.clicks.LongClickEvent.ItemLongClick
 import ru.inteam.touristo.common.ui.recycler.diff_util.DefaultDiffCallback
 import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
 import ru.inteam.touristo.common.ui.recycler.pagination.PageEvent
@@ -32,7 +32,7 @@ class RecyclerManager(
         adapter.submitList(items, onCommit)
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ItemClick> {
         return clicksManager.clicks<T>()
     }
 
@@ -40,7 +40,7 @@ class RecyclerManager(
         return clicksManager.clicks(viewId)
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> longClicks(): Flow<LongClickEvent> {
+    inline fun <reified T : RecyclerItem<*, *>> longClicks(): Flow<ItemLongClick> {
         return clicksManager.longClicks<T>()
     }
 

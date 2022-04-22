@@ -2,7 +2,6 @@ package ru.inteam.touristo.common.ui.view
 
 import android.graphics.Bitmap
 import android.view.ViewGroup.LayoutParams
-import ru.inteam.touristo.common.util.px
 import kotlin.math.roundToInt
 
 fun Bitmap.getViewLayoutParamsByMaxWidth(maxWidth: Int): LayoutParams {

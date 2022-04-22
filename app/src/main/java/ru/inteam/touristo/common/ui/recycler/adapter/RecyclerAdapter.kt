@@ -17,11 +17,11 @@ import ru.inteam.touristo.common.ui.recycler.pagination.PageEvent.NeedMore
 import ru.inteam.touristo.common.ui.recycler.pagination.PaginationOwner
 import ru.inteam.touristo.common.ui.view.inflate
 
-open class RecyclerAdapter(
+class RecyclerAdapter(
     private val paginationOwner: PaginationOwner?,
     diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>
 ) : RecyclerView.Adapter<RecyclerViewHolder>(), ClicksOwner {
-    override val clicksManager = ClicksManager()
+    override val clicksManager = ClicksManager(this)
 
     val pageFlow: Flow<PageEvent>? = paginationOwner?.pageEventFlow?.asSharedFlow()
 
@@ -78,8 +78,10 @@ open class RecyclerAdapter(
 
     override fun getItemCount(): Int = differ.size
 
-    protected val AsyncListDiffer<*>.size
+    private val AsyncListDiffer<*>.size
         get() = currentList.size
 
-    protected operator fun <T> AsyncListDiffer<T>.get(position: Int): T = currentList[position]
+    private operator fun <T> AsyncListDiffer<T>.get(position: Int): T = currentList[position]
+
+    operator fun get(position: Int) = differ[position]
 }

@@ -15,7 +15,7 @@ class RecyclerViewHolder(
     fun bind(item: RecyclerItem<*, *>) {
         if (isFresh.getAndSet(false)) {
             binding = item.provideViewBinding(itemView)
-            item.initBy(binding)
+            item.initBy(binding, this)
         }
         item.bindTo(binding)
     }
