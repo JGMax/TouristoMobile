@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="ru.inteam.touristo.ui_components.carousel.CarouselView">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:overScrollMode="never" />
 
     <ImageView
         android:id="@+id/image"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:src="@drawable/ic_indicator"
+        android:visibility="gone"
+        app:tint="#F2F7FF" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:overScrollMode="never" />
 </merge>
