@@ -32,19 +32,19 @@ class RecyclerManager(
         adapter.submitList(items, onCommit)
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> clicks(): Flow<ItemClick> {
+    inline fun <reified T : RecyclerItem<*, T>> clicks(): Flow<ItemClick> {
         return clicksManager.clicks<T>()
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> clicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, T>> clicks(viewId: Int): Flow<T> {
         return clicksManager.clicks(viewId)
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> longClicks(): Flow<ItemLongClick> {
+    inline fun <reified T : RecyclerItem<*, T>> longClicks(): Flow<ItemLongClick> {
         return clicksManager.longClicks<T>()
     }
 
-    inline fun <reified T : RecyclerItem<*, *>> longClicks(viewId: Int): Flow<T> {
+    inline fun <reified T : RecyclerItem<*, T>> longClicks(viewId: Int): Flow<T> {
         return clicksManager.longClicks(viewId)
     }
 }
