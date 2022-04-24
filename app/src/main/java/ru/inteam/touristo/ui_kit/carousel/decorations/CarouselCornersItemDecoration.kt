@@ -1,4 +1,4 @@
-package ru.inteam.touristo.ui_components.carousel.decorations
+package ru.inteam.touristo.ui_kit.carousel.decorations
 
 import android.graphics.Rect
 import android.view.View

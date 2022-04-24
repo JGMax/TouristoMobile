@@ -1,59 +1,25 @@
 package ru.inteam.touristo
 
 import android.os.Bundle
-import android.util.Log
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.inteam.touristo.common.ui.network.NetworkAppCompatActivity
-import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
-import ru.inteam.touristo.common.ui.view.reactive.clicks
-import ru.inteam.touristo.ui_components.carousel.CarouselView
-import ru.inteam.touristo.ui_components.carousel.model.CarouselItem
+import ru.inteam.touristo.common.util.buildResourceUri
+import ru.inteam.touristo.ui_kit.carousel.CarouselView
+import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
 
 class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
-    private val list =
+    private val list: List<CarouselItem> by lazy {
         listOf(
-            CarouselItem {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.test_photo,
-                    theme
-                )!!.toBitmap()
-            },
-            CarouselItem {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.very_test_photo,
-                    theme
-                )!!.toBitmap()
-            },
-            CarouselItem {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.very_test_photo,
-                    theme
-                )!!.toBitmap()
-            },
-            CarouselItem {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.very_test_photo,
-                    theme
-                )!!.toBitmap()
-            },
-            CarouselItem {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.very_test_photo,
-                    theme
-                )!!.toBitmap()
-            },
+            CarouselItem(buildResourceUri(R.drawable.test_photo)),
+//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
         )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

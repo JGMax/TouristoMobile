@@ -1,11 +1,9 @@
-package ru.inteam.touristo.ui_components.carousel
+package ru.inteam.touristo.ui_kit.carousel
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Rect
-import android.transition.TransitionInflater
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,23 +14,17 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Explode
-import androidx.transition.Fade
-import androidx.transition.Scene
-import androidx.transition.TransitionManager
 import kotlinx.coroutines.flow.*
 import ru.inteam.touristo.R
 import ru.inteam.touristo.common.ui.recycler.RecyclerManager
 import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.common.ui.recycler.managerBuilder
-import ru.inteam.touristo.common.ui.view.getViewLayoutParamsByMaxWidth
 import ru.inteam.touristo.common.ui.view.reactive.clicks
 import ru.inteam.touristo.common.ui.view.viewScope
-import ru.inteam.touristo.common.util.displayWidth
-import ru.inteam.touristo.common.util.getDimensionPixelSize
-import ru.inteam.touristo.ui_components.carousel.decorations.CarouselCornersItemDecoration
-import ru.inteam.touristo.ui_components.carousel.decorations.CarouselMarginsItemDecoration
-import ru.inteam.touristo.ui_components.carousel.model.CarouselItem
+import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselCornersItemDecoration
+import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselMarginsItemDecoration
+import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
+import ru.inteam.touristo.ui_kit.images.ContentImageView
 import java.lang.ref.WeakReference
 import kotlin.math.abs
 
@@ -43,7 +35,7 @@ class CarouselView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ViewGroup(context, attributeSet, defStyleAttr) {
     private val recycler: RecyclerView
-    private val image: ImageView
+    private val image: ContentImageView
     private val recyclerManager: RecyclerManager
     private val snapHelper: LinearSnapHelper
     private val recyclerLayoutParams =
@@ -62,7 +54,7 @@ class CarouselView @JvmOverloads constructor(
         indicator = findViewById(R.id.indicator)
         val horizontalLM = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerManager = recycler.managerBuilder()
-            .layoutManager(horizontalLM)
+            .layoutManager(CarouselLayoutManager(context))
             .decorations(CarouselMarginsItemDecoration(), CarouselCornersItemDecoration())
             .build()
 
@@ -105,8 +97,8 @@ class CarouselView @JvmOverloads constructor(
 
     private fun getSideElementsDesiredScroll(position: Int, view: View, outRect: Rect): Int {
         return when (position) {
-            0 -> view.layoutParams.width / 2 + outRect.right - view.right
-            recyclerManager.itemCount - 1 -> view.layoutParams.width / 2 + view.left - outRect.left
+            0 -> view.width / 2 + outRect.right - view.right
+            recyclerManager.itemCount - 1 -> view.width / 2 + view.left - outRect.left
             else -> outRect.width() / 2
         }
     }
@@ -122,27 +114,30 @@ class CarouselView @JvmOverloads constructor(
         showCarousel()
         val prevItemCount = recyclerManager.itemCount
         recyclerManager.submitList(items) {
-            if (prevItemCount != 0 && recyclerManager.itemCount != 0) {
-                recycler.scrollToPosition(recyclerManager.itemCount - 1)
-            } else if (prevItemCount != recyclerManager.itemCount) {
-                recycler.scrollToPosition(0)
+            if (recyclerManager.itemCount != 0) {
+                when {
+                    prevItemCount != 0 -> {
+                        recycler.scrollToPosition(recyclerManager.itemCount - 1)
+                    }
+                    prevItemCount != recyclerManager.itemCount -> {
+                        recycler.scrollToPosition(0)
+                    }
+                }
             }
         }
     }
 
     fun showItem(item: CarouselItem) {
-        recycler.isGone = true
         showFullImage(item)
     }
 
     private fun showFullImage(item: CarouselItem) {
+        recycler.isGone = true
         image.isVisible = true
         indicator.isVisible = true
         currentFullItem = item
-        val bitmap = item.source()
-        image.layoutParams = bitmap.getViewLayoutParamsByMaxWidth(context.displayWidth)
-        image.setImageBitmap(bitmap)
-        requestLayout()
+        setIndicatorPosition()
+        image.load(item.source)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -161,15 +156,18 @@ class CarouselView @JvmOverloads constructor(
         if (recycler.isVisible) {
             recycler.layout(l, t, r, b)
         } else {
-            measureChild(indicator, MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
             image.layout(l, t, r, b)
-            indicator.layout(
-                image.right - indicator.measuredWidth - context.getDimensionPixelSize(R.dimen.carousel_indicator_horizontal_margin),
-                image.bottom - indicator.measuredHeight - context.getDimensionPixelSize(R.dimen.carousel_indicator_vertical_margin),
-                image.right - context.getDimensionPixelSize(R.dimen.carousel_indicator_horizontal_margin),
-                image.bottom - context.getDimensionPixelSize(R.dimen.carousel_indicator_vertical_margin)
-            )
         }
+    }
+
+    private fun setIndicatorPosition() {
+//        measureChild(indicator, MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+//        indicator.layout(
+//            image.right - indicator.measuredWidth,
+//            image.bottom - indicator.measuredHeight,
+//            image.right,
+//            image.bottom
+//        )
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

@@ -1,6 +1,7 @@
-package ru.inteam.touristo.ui_components.carousel.decorations
+package ru.inteam.touristo.ui_kit.carousel.decorations
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.inteam.touristo.R
@@ -23,11 +24,7 @@ class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
         val lastPosition = (parent.adapter?.itemCount ?: 1) - 1
 
         val position = parent.getChildAdapterPosition(view)
-        val outerHorizontal = if (position == 0 || position == lastPosition) {
-            (parent.width - view.layoutParams.width) / 2
-        } else {
-            outerHorizontalMargin
-        }
+        Log.e("d", "d")
 
         outRect.apply {
             top = outerVerticalMargin
@@ -39,12 +36,12 @@ class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
                 right = 0
             }
             0 -> outRect.apply {
-                left = outerHorizontal
+                left = outerHorizontalMargin
                 right = innerHorizontalMargin
             }
             lastPosition -> outRect.apply {
                 left = innerHorizontalMargin
-                right = outerHorizontal
+                right = outerHorizontalMargin
             }
             else -> outRect.apply {
                 left = innerHorizontalMargin

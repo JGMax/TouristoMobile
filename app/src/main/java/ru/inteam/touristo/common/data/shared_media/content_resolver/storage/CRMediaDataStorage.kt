@@ -1,7 +1,12 @@
 package ru.inteam.touristo.common.data.shared_media.content_resolver.storage
 
 import android.content.ContentResolver
+import android.content.ContentResolver.*
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelStoreOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +31,7 @@ class CRMediaDataStorage(
     private val contentResolver: ContentResolver,
     viewModelStoreOwner: ViewModelStoreOwner? = null
 ) : TeaStoreOwner, SharedMediaDataStorage {
+
     private val storeOwner = viewModelStoreOwner ?: this
 
     private val store: CRMediaDataStore by TeaStore(storeOwner, CR_MEDIA_DATA_STORE_KEY) {
@@ -45,9 +51,18 @@ class CRMediaDataStorage(
     }
 
     override suspend fun openContentUri(uri: Uri): InputStream = withContext(Dispatchers.IO) {
-        if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+        if (uri.scheme == SCHEME_CONTENT) {
             @Suppress("BlockingMethodInNonBlockingContext")
             contentResolver.openInputStream(uri) ?: throw NoSuchFieldException("Unknown Uri")
+        }
+        throw IllegalArgumentException("Incorrect Uri scheme")
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override suspend fun getImageBitmap(uri: Uri): Bitmap = withContext(Dispatchers.IO) {
+        if (uri.scheme !in setOf(SCHEME_CONTENT, SCHEME_ANDROID_RESOURCE, SCHEME_FILE)) {
+            val source = ImageDecoder.createSource(contentResolver, uri)
+            ImageDecoder.decodeBitmap(source)
         }
         throw IllegalArgumentException("Incorrect Uri scheme")
     }

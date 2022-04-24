@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ru.inteam.touristo.ui_components.carousel.CarouselView
+    <ru.inteam.touristo.ui_kit.carousel.CarouselView
         android:id="@+id/carousel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

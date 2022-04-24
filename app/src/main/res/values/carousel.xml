@@ -7,4 +7,14 @@
     <dimen name="carousel_item_corner_radius">8dp</dimen>
     <dimen name="carousel_indicator_horizontal_margin">16dp</dimen>
     <dimen name="carousel_indicator_vertical_margin">8dp</dimen>
+
+    <style name="TKit.Carousel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="TKit.Carousel.Image" />
+    <style name="TKit.Carousel.Image.Filled">
+        <item name="background">@color/base_100</item>
+    </style>
 </resources>
