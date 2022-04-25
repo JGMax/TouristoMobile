@@ -1,10 +1,10 @@
 package ru.inteam.touristo.ui_kit.carousel.decorations
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.inteam.touristo.R
+import ru.inteam.touristo.ui_kit.images.ContentImageView
 
 class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
 
@@ -21,27 +21,44 @@ class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
         val innerHorizontalMargin =
             parent.resources.getDimensionPixelSize(R.dimen.carousel_item_inner_horizontal_margin) / 2
 
-        val lastPosition = (parent.adapter?.itemCount ?: 1) - 1
+        val contentLastPosition = (parent.adapter?.itemCount ?: 2) - 2
+        val contentStartPosition = 1
 
         val position = parent.getChildAdapterPosition(view)
-        Log.e("d", "d")
+
+        when (position) {
+            contentStartPosition -> (view as? ContentImageView)?.setOnLoadListener {
+                val empty = parent.getChildAt(0) ?: return@setOnLoadListener
+                val lp = empty.layoutParams
+                lp.width = (parent.width - it.width) / 2
+                empty.layoutParams = lp
+            }
+            contentLastPosition + 1 -> {
+                val contentView = parent.getChildAt(contentLastPosition)
+                (contentView as? ContentImageView)?.setOnLoadListener {
+                    val lp = view.layoutParams
+                    lp.width = (parent.width - it.width) / 2
+                    view.layoutParams = lp
+                }
+            }
+        }
 
         outRect.apply {
             top = outerVerticalMargin
             bottom = outerVerticalMargin
         }
         when (position) {
-            RecyclerView.NO_POSITION -> outRect.apply {
+            RecyclerView.NO_POSITION,
+            contentLastPosition + 1,
+            contentStartPosition - 1 -> outRect.apply {
                 left = 0
                 right = 0
             }
-            0 -> outRect.apply {
-                left = outerHorizontalMargin
+            contentStartPosition -> outRect.apply {
                 right = innerHorizontalMargin
             }
-            lastPosition -> outRect.apply {
+            contentLastPosition -> outRect.apply {
                 left = innerHorizontalMargin
-                right = outerHorizontalMargin
             }
             else -> outRect.apply {
                 left = innerHorizontalMargin

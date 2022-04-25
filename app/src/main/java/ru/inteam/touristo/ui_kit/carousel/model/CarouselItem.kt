@@ -1,30 +1,27 @@
 package ru.inteam.touristo.ui_kit.carousel.model
 
 import android.net.Uri
-import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import ru.inteam.touristo.R
 import ru.inteam.touristo.common.ui.recycler.holder.RecyclerViewHolder
 import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
 import ru.inteam.touristo.common.ui.view.reactive.clicks
-import ru.inteam.touristo.databinding.UiComponentCarouselItemBinding
-import ru.inteam.touristo.ui_kit.carousel.CarouselLayoutManager
+import ru.inteam.touristo.databinding.UiKitCarouselItemBinding
 
 data class CarouselItem(
     val source: Uri
-) : RecyclerItem<UiComponentCarouselItemBinding, CarouselItem>() {
-    override val layoutId: Int = R.layout.ui_component_carousel_item
+) : RecyclerItem<UiKitCarouselItemBinding, CarouselItem>() {
+    override val layoutId: Int = R.layout.ui_kit_carousel_item
 
-    override fun provideViewBinding(view: View): UiComponentCarouselItemBinding {
-        return UiComponentCarouselItemBinding.bind(view)
+    override fun provideViewBinding(view: View): UiKitCarouselItemBinding {
+        return UiKitCarouselItemBinding.bind(view)
     }
 
-    override fun RecyclerViewHolder.initHolder(binding: UiComponentCarouselItemBinding) {
+    override fun RecyclerViewHolder.initHolder(binding: UiKitCarouselItemBinding) {
         clicks(itemView.clicks(), this)
     }
 
-    override fun UiComponentCarouselItemBinding.bind(me: CarouselItem) {
+    override fun UiKitCarouselItemBinding.bind(me: CarouselItem) {
         image.load(source)
     }
 }

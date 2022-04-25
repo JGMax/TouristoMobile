@@ -3,7 +3,6 @@ package ru.inteam.touristo.ui_kit.carousel
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +17,14 @@ import kotlinx.coroutines.flow.*
 import ru.inteam.touristo.R
 import ru.inteam.touristo.common.ui.recycler.RecyclerManager
 import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent.ItemClick
+import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
 import ru.inteam.touristo.common.ui.recycler.managerBuilder
 import ru.inteam.touristo.common.ui.view.reactive.clicks
 import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselCornersItemDecoration
 import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselMarginsItemDecoration
 import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
+import ru.inteam.touristo.ui_kit.carousel.model.EmptyItem
 import ru.inteam.touristo.ui_kit.images.ContentImageView
 import java.lang.ref.WeakReference
 import kotlin.math.abs
@@ -46,7 +47,7 @@ class CarouselView @JvmOverloads constructor(
     private var currentFullItem: CarouselItem? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.ui_component_carousel, this, true)
+        LayoutInflater.from(context).inflate(R.layout.ui_kit_carousel, this, true)
         recycler = findViewById(R.id.recycler)
         recycler.layoutParams = recyclerLayoutParams
         snapHelper = LinearSnapHelper().apply { attachToRecyclerView(recycler) }
@@ -113,7 +114,7 @@ class CarouselView @JvmOverloads constructor(
     fun submitItems(items: List<CarouselItem>) {
         showCarousel()
         val prevItemCount = recyclerManager.itemCount
-        recyclerManager.submitList(items) {
+        recyclerManager.submitList(addFlexItems(items)) {
             if (recyclerManager.itemCount != 0) {
                 when {
                     prevItemCount != 0 -> {
@@ -125,6 +126,10 @@ class CarouselView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    private fun addFlexItems(items: List<CarouselItem>): List<RecyclerItem<*, *>> {
+        return listOf(EmptyItem()) + items + EmptyItem()
     }
 
     fun showItem(item: CarouselItem) {

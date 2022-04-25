@@ -14,10 +14,10 @@ class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
     private val list: List<CarouselItem> by lazy {
         listOf(
             CarouselItem(buildResourceUri(R.drawable.test_photo)),
-//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
-//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
-//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
-//            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
+            CarouselItem(buildResourceUri(R.drawable.very_test_photo)),
         )
     }
 

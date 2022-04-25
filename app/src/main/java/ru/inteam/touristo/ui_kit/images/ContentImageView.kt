@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import coil.imageLoader
 import coil.request.ImageRequest
+import ru.inteam.touristo.BuildConfig
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val TAG = "ContentImageView"
@@ -44,16 +45,19 @@ class ContentImageView @JvmOverloads constructor(
             crossfade(true)
             target {
                 setImageDrawable(it)
-                onLoadListener?.invoke(this@ContentImageView)
+                isLoading.set(true)
             }
         }
     }
 
     fun load(uri: Uri, config: ImageRequest.Builder.() -> Unit) {
-        isLoading.set(true)
         val request = ImageRequest.Builder(context)
             .data(uri)
-            .listener(onError = { _, result -> Log.e(TAG, result.throwable.stackTraceToString()) })
+            .listener(onError = { _, result ->
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, result.throwable.stackTraceToString())
+                }
+            })
             .apply(config)
             .build()
         context.imageLoader.enqueue(request)
