@@ -10,17 +10,17 @@ class RecyclerViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view) {
     private var isFresh = AtomicBoolean(true)
-    private lateinit var binding: ViewBinding
+    private var binding: ViewBinding? = null
 
     fun bind(item: RecyclerItem<*, *>) {
         if (isFresh.getAndSet(false)) {
             binding = item.provideViewBinding(itemView)
-            item.initBy(binding, this)
+            binding?.let { item.initBy(it, this) }
         }
-        item.bindTo(binding)
+        binding?.let { item.bindTo(it) }
     }
 
     fun bind(item: RecyclerItem<*, *>, payloads: MutableList<Any>) {
-        item.bindTo(binding, payloads)
+        binding?.let { item.bindTo(it, payloads) }
     }
 }

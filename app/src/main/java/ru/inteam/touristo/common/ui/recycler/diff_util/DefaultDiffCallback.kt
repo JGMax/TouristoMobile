@@ -1,5 +1,6 @@
 package ru.inteam.touristo.common.ui.recycler.diff_util
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
 
@@ -11,6 +12,7 @@ class DefaultDiffCallback : DiffUtil.ItemCallback<RecyclerItem<*, *>>() {
         return oldItem.itemId == newItem.itemId
     }
 
+    @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(
         oldItem: RecyclerItem<*, *>,
         newItem: RecyclerItem<*, *>

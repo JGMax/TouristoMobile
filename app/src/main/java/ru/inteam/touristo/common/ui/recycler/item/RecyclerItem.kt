@@ -22,7 +22,7 @@ abstract class RecyclerItem<B : ViewBinding, ME> {
     private var clicks: MutableSharedFlow<Flow<ClickEvent>>? = null
     private var longClicks: MutableSharedFlow<Flow<LongClickEvent>>? = null
 
-    abstract fun provideViewBinding(view: View): B
+    open fun provideViewBinding(view: View): B? = null
 
     protected open fun RecyclerViewHolder.initHolder(binding: B) = Unit
     protected open fun B.bind(me: ME) = Unit
@@ -59,7 +59,4 @@ abstract class RecyclerItem<B : ViewBinding, ME> {
     fun attachLongClicks(flow: MutableSharedFlow<Flow<LongClickEvent>>) {
         longClicks = flow
     }
-
-    abstract override fun equals(other: Any?): Boolean
-    abstract override fun hashCode(): Int
 }

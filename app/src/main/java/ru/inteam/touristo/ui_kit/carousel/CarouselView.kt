@@ -55,7 +55,7 @@ class CarouselView @JvmOverloads constructor(
         indicator = findViewById(R.id.indicator)
         val horizontalLM = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerManager = recycler.managerBuilder()
-            .layoutManager(CarouselLayoutManager(context))
+            .layoutManager(horizontalLM)
             .decorations(CarouselMarginsItemDecoration(), CarouselCornersItemDecoration())
             .build()
 
