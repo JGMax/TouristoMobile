@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TKit.TextAppearance.AppHeader" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_bold_italic</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Header1" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_light</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Header2" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_light</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Header3" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_regular</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Header4" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Body1" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:rowHeight">20sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Body2" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:rowHeight">18sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Body3" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_light_italic</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:rowHeight">20sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Subtitle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:rowHeight">14sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Secondary" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:rowHeight">14sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Caption" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_semi_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:rowHeight">12sp</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Button" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:rowHeight">18sp</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="TKit.TextAppearance.Button2" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/font_nunito_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:rowHeight">18sp</item>
+    </style>
+</resources>
