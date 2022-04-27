@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import coil.imageLoader
 import coil.request.ImageRequest
 import ru.inteam.touristo.BuildConfig
+import ru.inteam.touristo.R
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val TAG = "ContentImageView"
@@ -18,7 +19,7 @@ class ContentImageView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attributeSet, defStyleAttr) {
     private var onLoadListener: ((ContentImageView) -> Unit)? = null
-    private val isLoading = AtomicBoolean(false)
+    private val isRendering = AtomicBoolean(false)
 
     init {
         val attrs = context.obtainStyledAttributes(
@@ -35,7 +36,7 @@ class ContentImageView @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (isLoading.getAndSet(false)) {
+        if (isRendering.getAndSet(false)) {
             onLoadListener?.invoke(this)
         }
     }
@@ -43,9 +44,10 @@ class ContentImageView @JvmOverloads constructor(
     fun load(uri: Uri) {
         load(uri) {
             crossfade(true)
+            placeholder(R.drawable.shimmer_image)
             target {
                 setImageDrawable(it)
-                isLoading.set(true)
+                isRendering.set(true)
             }
         }
     }

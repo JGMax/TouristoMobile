@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.ImageView
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,14 +19,11 @@ import ru.inteam.touristo.common.ui.recycler.RecyclerManager
 import ru.inteam.touristo.common.ui.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.common.ui.recycler.item.RecyclerItem
 import ru.inteam.touristo.common.ui.recycler.managerBuilder
-import ru.inteam.touristo.common.ui.view.reactive.clicks
 import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselCornersItemDecoration
 import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselMarginsItemDecoration
 import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
 import ru.inteam.touristo.ui_kit.carousel.model.EmptyItem
-import ru.inteam.touristo.ui_kit.images.ContentImageView
-import java.lang.ref.WeakReference
 import kotlin.math.abs
 
 
@@ -36,23 +33,21 @@ class CarouselView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ViewGroup(context, attributeSet, defStyleAttr) {
     private val recycler: RecyclerView
-    private val image: ContentImageView
+    private val image: CarouselFullImageView
     private val recyclerManager: RecyclerManager
     private val snapHelper: LinearSnapHelper
     private val recyclerLayoutParams =
         LayoutParams(MATCH_PARENT, resources.getDimensionPixelSize(R.dimen.carousel_height))
-    private val indicator: ImageView
 
-    private val outerClicks = MutableSharedFlow<ItemClick>(extraBufferCapacity = 10)
-    private var currentFullItem: CarouselItem? = null
+    private val clicks = MutableSharedFlow<ItemClick>(extraBufferCapacity = 10)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.ui_kit_carousel, this, true)
+        image = findViewById(R.id.full_image)
+
         recycler = findViewById(R.id.recycler)
         recycler.layoutParams = recyclerLayoutParams
         snapHelper = LinearSnapHelper().apply { attachToRecyclerView(recycler) }
-        image = findViewById(R.id.image)
-        indicator = findViewById(R.id.indicator)
         val horizontalLM = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerManager = recycler.managerBuilder()
             .layoutManager(horizontalLM)
@@ -63,19 +58,17 @@ class CarouselView @JvmOverloads constructor(
             .onEach(::onCarouselItemClicked)
             .launchIn(viewScope)
 
-        indicator.clicks()
-            .mapNotNull { view -> currentFullItem?.let { ItemClick(it, WeakReference(view)) } }
-            .onEach(outerClicks::tryEmit)
+        image.clicks()
+            .onEach { showCarousel() }
             .launchIn(viewScope)
     }
-
-    fun clicks(): Flow<ItemClick> = outerClicks.asSharedFlow()
 
     private fun onCarouselItemClicked(click: ItemClick) {
         val view = click.view.get() ?: return
         val focusedView = snapHelper.findSnapView(recycler.layoutManager) ?: return
         if (view == focusedView) {
-            outerClicks.tryEmit(click)
+            clicks.tryEmit(click)
+            showItem(click.item as CarouselItem)
         } else {
             val position = recycler.getChildAdapterPosition(view)
             val prevPosition = recycler.getChildAdapterPosition(focusedView)
@@ -106,8 +99,6 @@ class CarouselView @JvmOverloads constructor(
 
     fun showCarousel() {
         image.isGone = true
-        indicator.isGone = true
-        currentFullItem = null
         recycler.isVisible = true
     }
 
@@ -139,10 +130,7 @@ class CarouselView @JvmOverloads constructor(
     private fun showFullImage(item: CarouselItem) {
         recycler.isGone = true
         image.isVisible = true
-        indicator.isVisible = true
-        currentFullItem = item
-        setIndicatorPosition()
-        image.load(item.source)
+        image.showFullImage(item)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -165,21 +153,11 @@ class CarouselView @JvmOverloads constructor(
         }
     }
 
-    private fun setIndicatorPosition() {
-//        measureChild(indicator, MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-//        indicator.layout(
-//            image.right - indicator.measuredWidth,
-//            image.bottom - indicator.measuredHeight,
-//            image.right,
-//            image.bottom
-//        )
-    }
-
     override fun generateDefaultLayoutParams(): LayoutParams {
-        return MarginLayoutParams(MATCH_PARENT, MATCH_PARENT)
+        return MarginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
     }
 
     override fun generateLayoutParams(attributeSet: AttributeSet?): LayoutParams {
-        return MarginLayoutParams(MATCH_PARENT, MATCH_PARENT)
+        return MarginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
     }
 }

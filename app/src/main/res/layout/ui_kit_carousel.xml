@@ -4,17 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="ru.inteam.touristo.ui_kit.carousel.CarouselView">
 
-    <ru.inteam.touristo.ui_kit.images.ContentImageView
-        android:id="@+id/image"
+    <ru.inteam.touristo.ui_kit.carousel.CarouselFullImageView
+        android:id="@+id/full_image"
         android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/indicator"
-        android:paddingHorizontal="@dimen/carousel_indicator_horizontal_margin"
-        android:paddingVertical="@dimen/carousel_indicator_vertical_margin"
-        android:src="@drawable/ic_indicator"
-        android:visibility="gone"
-        app:tint="@color/neutral_50" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

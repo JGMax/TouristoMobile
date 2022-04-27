@@ -1,6 +1,7 @@
 package ru.inteam.touristo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -38,17 +39,6 @@ class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
 //            )
 //            delay(5000)
             carousel.submitItems(list)
-            launch {
-                carousel.clicks()
-                    .onEach {
-                        if (it.view.get()?.id == R.id.indicator) {
-                            carousel.showCarousel()
-                        } else {
-                            carousel.showItem(it.item as CarouselItem)
-                        }
-                    }
-                    .collect()
-            }
         }
     }
 }
