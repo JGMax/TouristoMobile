@@ -1,10 +1,7 @@
 package ru.inteam.touristo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.inteam.touristo.common.ui.network.NetworkAppCompatActivity
 import ru.inteam.touristo.common.util.buildResourceUri
