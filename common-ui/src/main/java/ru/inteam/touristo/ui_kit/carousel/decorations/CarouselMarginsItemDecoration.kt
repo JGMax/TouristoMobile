@@ -16,8 +16,6 @@ class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
     ) {
         val outerVerticalMargin =
             parent.resources.getDimensionPixelSize(R.dimen.carousel_item_vertical_margin)
-        val outerHorizontalMargin =
-            parent.resources.getDimensionPixelSize(R.dimen.carousel_item_outer_horizontal_margin)
         val innerHorizontalMargin =
             parent.resources.getDimensionPixelSize(R.dimen.carousel_item_inner_horizontal_margin) / 2
 
