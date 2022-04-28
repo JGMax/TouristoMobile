@@ -14,6 +14,7 @@ import ru.inteam.touristo.ui_kit.R
 import ru.inteam.touristo.ui_kit.shimmer.ShimmerView
 import ru.inteam.touristo.ui_kit.shimmer.shimmerAnimator
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.min
 
 private const val TAG = "ContentImageView"
 
@@ -25,6 +26,7 @@ class ContentImageView @JvmOverloads constructor(
     private var onLoadListener: ((ContentImageView) -> Unit)? = null
     private val isRendering = AtomicBoolean(false)
     override var anim: Animator? = shimmerAnimator()
+    private val isSquare: Boolean
 
     init {
         attachViewToShimmer(this)
@@ -32,8 +34,17 @@ class ContentImageView @JvmOverloads constructor(
             attributeSet,
             intArrayOf(android.R.attr.adjustViewBounds)
         )
+
+        val customAttrs = context.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.ContentImageView,
+            defStyleAttr,
+            0
+        )
         adjustViewBounds = attrs.getBoolean(0, true)
+        isSquare = customAttrs.getBoolean(R.styleable.ContentImageView_square, false)
         attrs.recycle()
+        customAttrs.recycle()
     }
 
     override fun onVisibilityChanged(changedView: View, prevVisibility: Int) {
@@ -43,6 +54,19 @@ class ContentImageView @JvmOverloads constructor(
 
     fun setOnLoadListener(listener: (ContentImageView) -> Unit) {
         onLoadListener = listener
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        if (!isSquare) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+            return
+        }
+
+        val width = MeasureSpec.getSize(widthMeasureSpec)
+        val height = MeasureSpec.getSize(heightMeasureSpec)
+
+        val size = min(width, height)
+        setMeasuredDimension(size, size)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
