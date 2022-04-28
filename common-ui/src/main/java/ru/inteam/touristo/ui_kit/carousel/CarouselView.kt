@@ -61,6 +61,8 @@ class CarouselView @JvmOverloads constructor(
         image.clicks()
             .onEach { showCarousel() }
             .launchIn(viewScope)
+
+        setWillNotDraw(true)
     }
 
     private fun onCarouselItemClicked(click: ItemClick) {
@@ -135,22 +137,19 @@ class CarouselView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = MeasureSpec.getSize(widthMeasureSpec)
+        measureChild(recycler, widthMeasureSpec, heightMeasureSpec)
+        measureChild(image, widthMeasureSpec, heightMeasureSpec)
         val desiredHeight = if (recycler.isVisible) {
-            measureChild(recycler, widthMeasureSpec, heightMeasureSpec)
             recycler.measuredHeight
         } else {
-            measureChild(image, widthMeasureSpec, heightMeasureSpec)
             image.measuredHeight
         }
         setMeasuredDimension(desiredWidth, desiredHeight)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        if (recycler.isVisible) {
-            recycler.layout(l, t, r, b)
-        } else {
-            image.layout(l, t, r, b)
-        }
+        recycler.layout(0, 0, width, height)
+        image.layout(0, 0, width, height)
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
