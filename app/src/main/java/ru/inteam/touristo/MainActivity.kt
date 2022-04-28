@@ -7,6 +7,7 @@ import ru.inteam.touristo.common.ui.network.NetworkAppCompatActivity
 import ru.inteam.touristo.common.util.buildResourceUri
 import ru.inteam.touristo.ui_kit.carousel.CarouselView
 import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
+import ru.inteam.touristo.ui_kit.toolbar.attachToolbar
 
 class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
     private val list: List<CarouselItem> by lazy {
@@ -21,6 +22,7 @@ class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        attachToolbar(findViewById(R.id.toolbar))
         val carousel = findViewById<CarouselView>(R.id.carousel)
         lifecycleScope.launch {
 //            carousel.submitItems(
