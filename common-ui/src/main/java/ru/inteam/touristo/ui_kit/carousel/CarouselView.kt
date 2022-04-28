@@ -13,17 +13,20 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import ru.inteam.touristo.common.ui.view.getViewByAdapterPosition
+import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.ui_kit.R
+import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselCornersItemDecoration
+import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselMarginsItemDecoration
+import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
+import ru.inteam.touristo.ui_kit.carousel.model.FlexItem
 import ru.inteam.touristo.ui_kit.recycler.RecyclerManager
 import ru.inteam.touristo.ui_kit.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.ui_kit.recycler.item.RecyclerItem
 import ru.inteam.touristo.ui_kit.recycler.managerBuilder
-import ru.inteam.touristo.common.ui.view.viewScope
-import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselCornersItemDecoration
-import ru.inteam.touristo.ui_kit.carousel.decorations.CarouselMarginsItemDecoration
-import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
-import ru.inteam.touristo.ui_kit.carousel.model.EmptyItem
 import kotlin.math.abs
 
 
@@ -82,8 +85,10 @@ class CarouselView @JvmOverloads constructor(
             recycler.getDecoratedBoundsWithMargins(view, outRect)
             desiredScroll += getSideElementsDesiredScroll(position, view, outRect)
             for (i in min until max) {
-                recycler.getDecoratedBoundsWithMargins(recycler.getChildAt(i), outRect)
-                desiredScroll += outRect.width()
+                recycler.getViewByAdapterPosition(i)?.let {
+                    recycler.getDecoratedBoundsWithMargins(it, outRect)
+                    desiredScroll += outRect.width()
+                }
             }
 
             val k = (position - prevPosition) / abs(position - prevPosition)
@@ -122,7 +127,9 @@ class CarouselView @JvmOverloads constructor(
     }
 
     private fun addFlexItems(items: List<CarouselItem>): List<RecyclerItem<*, *>> {
-        return listOf(EmptyItem()) + items + EmptyItem()
+        val list = mutableListOf<RecyclerItem<*, *>>(FlexItem(), FlexItem())
+        list.addAll(1, items)
+        return list
     }
 
     fun showItem(item: CarouselItem) {

@@ -3,10 +3,10 @@ package ru.inteam.touristo.ui_kit.carousel.decorations
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.inteam.touristo.ui_kit.R
 import ru.inteam.touristo.common.ui.view.corners
+import ru.inteam.touristo.ui_kit.R
 
-class CarouselCornersItemDecoration : RecyclerView.ItemDecoration() {
+internal class CarouselCornersItemDecoration : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,

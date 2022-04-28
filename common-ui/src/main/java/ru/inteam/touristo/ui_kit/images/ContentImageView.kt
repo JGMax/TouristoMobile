@@ -26,24 +26,33 @@ class ContentImageView @JvmOverloads constructor(
     private var onLoadListener: ((ContentImageView) -> Unit)? = null
     private val isRendering = AtomicBoolean(false)
     override var anim: Animator? = shimmerAnimator()
+    private var isLoaded = false
     private val isSquare: Boolean
 
     init {
         attachViewToShimmer(this)
-        val attrs = context.obtainStyledAttributes(
+        val adjustViewBoundsAttr = context.obtainStyledAttributes(
             attributeSet,
             intArrayOf(android.R.attr.adjustViewBounds)
         )
-
         val customAttrs = context.obtainStyledAttributes(
             attributeSet,
             R.styleable.ContentImageView,
             defStyleAttr,
             0
         )
-        adjustViewBounds = attrs.getBoolean(0, true)
+        val scaleTypeAttrs = context.obtainStyledAttributes(
+            attributeSet,
+            intArrayOf(android.R.attr.scaleType)
+        )
+        adjustViewBounds = adjustViewBoundsAttr.getBoolean(0, true)
         isSquare = customAttrs.getBoolean(R.styleable.ContentImageView_square, false)
-        attrs.recycle()
+        if (isSquare) {
+            val scaleTypeIndex = scaleTypeAttrs.getInt(0, 6)
+            scaleType = ScaleType.values()[scaleTypeIndex]
+        }
+        scaleTypeAttrs.recycle()
+        adjustViewBoundsAttr.recycle()
         customAttrs.recycle()
     }
 
@@ -53,6 +62,7 @@ class ContentImageView @JvmOverloads constructor(
     }
 
     fun setOnLoadListener(listener: (ContentImageView) -> Unit) {
+        if (isLoaded) listener(this)
         onLoadListener = listener
     }
 
@@ -73,6 +83,7 @@ class ContentImageView @JvmOverloads constructor(
         super.onLayout(changed, left, top, right, bottom)
         if (isRendering.getAndSet(false)) {
             onLoadListener?.invoke(this)
+            println("xxx: $width $height")
         }
     }
 
@@ -91,13 +102,20 @@ class ContentImageView @JvmOverloads constructor(
         val request = ImageRequest.Builder(context)
             .data(uri)
             .listener(
-                onStart = { startShimmer() },
-                onSuccess = { _, _ -> stopShimmer() },
+                onStart = {
+                    startShimmer()
+                    isLoaded = false
+                },
+                onSuccess = { _, _ ->
+                    stopShimmer()
+                    isLoaded = true
+                },
                 onError = { _, result ->
                     if (BuildConfig.DEBUG) {
                         Log.e(TAG, result.throwable.stackTraceToString())
                     }
                     stopShimmer()
+                    isLoaded = true
                 }
             )
             .apply(config)

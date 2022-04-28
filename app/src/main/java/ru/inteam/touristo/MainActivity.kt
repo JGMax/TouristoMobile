@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import ru.inteam.touristo.common.ui.network.NetworkAppCompatActivity
+import ru.inteam.touristo.common.ui.toolbar.attachToolbar
 import ru.inteam.touristo.common.util.buildResourceUri
 import ru.inteam.touristo.ui_kit.carousel.CarouselView
 import ru.inteam.touristo.ui_kit.carousel.model.CarouselItem
-import ru.inteam.touristo.ui_kit.toolbar.attachToolbar
 
 class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
     private val list: List<CarouselItem> by lazy {

@@ -3,7 +3,6 @@ package ru.inteam.touristo.ui_kit.images
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import ru.inteam.touristo.ui_kit.R
 import kotlin.math.min
 
 class SquareImageView @JvmOverloads constructor(
@@ -13,13 +12,13 @@ class SquareImageView @JvmOverloads constructor(
 ) : AppCompatImageView(context, attributeSet, defStyleAttr) {
 
     init {
-        val attrs = context.obtainStyledAttributes(
+        val scaleTypeAttrs = context.obtainStyledAttributes(
             attributeSet,
             intArrayOf(android.R.attr.scaleType)
         )
-        val scaleTypeIndex = attrs.getInt(0, 6)
+        val scaleTypeIndex = scaleTypeAttrs.getInt(0, 6)
         scaleType = ScaleType.values()[scaleTypeIndex]
-        attrs.recycle()
+        scaleTypeAttrs.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

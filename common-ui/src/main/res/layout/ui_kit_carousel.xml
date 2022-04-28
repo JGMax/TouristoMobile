@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="ru.inteam.touristo.ui_kit.carousel.CarouselView">
 
@@ -10,8 +9,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:overScrollMode="never"
         tools:listitem="@layout/ui_kit_carousel_item" />
 </merge>
