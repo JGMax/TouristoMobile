@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ru.inteam.touristo.common.util.systemService
 
 class NetworkConnectionDetector(context: Context) {
     private val _isConnected = MutableStateFlow(true)
@@ -14,8 +15,7 @@ class NetworkConnectionDetector(context: Context) {
     val isConnectedFlow: StateFlow<Boolean>
         get() = _isConnected
 
-    private val connectivityManager: ConnectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val connectivityManager: ConnectivityManager = context.systemService()
 
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
     private val validNetworks: MutableSet<Network> = HashSet()

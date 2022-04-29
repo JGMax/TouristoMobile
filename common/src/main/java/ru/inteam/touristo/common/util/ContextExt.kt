@@ -12,3 +12,7 @@ val Context.displayHeight: Int
 fun Context.getDimensionPixelSize(@DimenRes resId: Int): Int {
     return resources.getDimensionPixelSize(resId)
 }
+
+inline fun<reified T: Any> Context.systemService(): T {
+    return getSystemService(T::class.java)
+}

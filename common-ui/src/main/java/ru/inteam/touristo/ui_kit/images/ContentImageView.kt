@@ -83,7 +83,6 @@ class ContentImageView @JvmOverloads constructor(
         super.onLayout(changed, left, top, right, bottom)
         if (isRendering.getAndSet(false)) {
             onLoadListener?.invoke(this)
-            println("xxx: $width $height")
         }
     }
 
