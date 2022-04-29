@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TKit" />
-
-    <style name="TKit.Widget" />
+    <color name="main_600">#0099D3</color>
 </resources>

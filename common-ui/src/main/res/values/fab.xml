@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlayExtended">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="TKit.Widget.ExtendedFab" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="backgroundTint">@color/main_600</item>
+        <item name="iconTint">@color/neutral_50</item>
+        <item name="iconSize">20dp</item>
+        <item name="iconPadding">8dp</item>
+        <item name="android:textColor">@color/neutral_50</item>
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Secondary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlayExtended</item>
+    </style>
+</resources>
