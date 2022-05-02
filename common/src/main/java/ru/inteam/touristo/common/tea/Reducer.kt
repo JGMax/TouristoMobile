@@ -17,7 +17,7 @@ abstract class Reducer<State : Any, Event : Any, Action : Any, Operation : Any> 
         return cmd
     }
 
-    protected fun state(block: State.() -> State) {
+    protected inline fun state(block: State.() -> State) {
         state = block(state)
     }
 

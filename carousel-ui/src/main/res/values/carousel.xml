@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="carousel_item_outer_horizontal_margin">16dp</dimen>
+    <dimen name="carousel_item_inner_horizontal_margin">8dp</dimen>
+    <dimen name="carousel_item_vertical_margin">8dp</dimen>
+    <dimen name="carousel_height">216dp</dimen>
+    <dimen name="carousel_item_corner_radius">8dp</dimen>
+    <dimen name="carousel_indicator_horizontal_margin">16dp</dimen>
+    <dimen name="carousel_indicator_vertical_margin">8dp</dimen>
+
+    <style name="TKit.Widget.Carousel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="TKit.Widget.Carousel.Image" />
+
+    <style name="TKit.Widget.Carousel.Image.Filled">
+        <item name="android:background">@color/base_100</item>
+    </style>
+</resources>

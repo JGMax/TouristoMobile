@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ru.inteam.touristo.ui_kit.carousel.CarouselView
+    <ru.inteam.touristo.carousel.CarouselView
         style="@style/TKit.Widget.Carousel.Image.Filled"
         android:id="@+id/carousel"
         android:layout_width="match_parent"

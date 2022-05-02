@@ -7,7 +7,7 @@ import ru.inteam.touristo.common.tea.Reducer
 import ru.inteam.touristo.common.tea.Store
 import ru.inteam.touristo.common.tea.UiStateMapper
 
-class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any>(
+class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal constructor(
     initialState: State,
     private val reducer: Reducer<State, Event, Action, Operation>,
     private val actors: Store<*, *, *>.() -> List<Actor<Operation, Event>> = { listOf() }

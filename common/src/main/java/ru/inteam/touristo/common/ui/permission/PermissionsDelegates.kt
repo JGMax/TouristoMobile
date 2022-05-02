@@ -6,7 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class PermissionReadOnlyDelegate(
+private class PermissionReadOnlyDelegate(
     private val onResult: (Boolean) -> Unit
 ) : ReadOnlyProperty<ActivityResultCaller, ActivityResultLauncher<String>> {
     override fun getValue(
@@ -20,7 +20,7 @@ class PermissionReadOnlyDelegate(
     }
 }
 
-class MultiplePermissionReadOnlyDelegate(
+private class MultiplePermissionReadOnlyDelegate(
     private val onResult: (Map<String, Boolean>) -> Unit
 ) : ReadOnlyProperty<ActivityResultCaller, ActivityResultLauncher<Array<String>>> {
     override fun getValue(

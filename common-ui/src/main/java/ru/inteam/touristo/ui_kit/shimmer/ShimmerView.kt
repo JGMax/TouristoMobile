@@ -3,7 +3,6 @@ package ru.inteam.touristo.ui_kit.shimmer
 import android.animation.Animator
 import android.view.View
 import android.view.View.VISIBLE
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.doOnDetach
 
 interface ShimmerView {

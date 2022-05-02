@@ -9,7 +9,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.plus
 import ru.inteam.touristo.common.tea.store.factory.TeaStoreOwner
 
-abstract class Store<out State : Any, in Event : Any, out Action : Any> : ViewModel(), TeaStoreOwner {
+abstract class Store<out State : Any, in Event : Any, out Action : Any> : ViewModel(),
+    TeaStoreOwner {
     val storeScope: CoroutineScope
         get() = viewModelScope + Dispatchers.Unconfined
 

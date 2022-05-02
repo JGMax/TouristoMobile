@@ -9,3 +9,7 @@ rootProject.name = "TouristoMobile"
 include ':app'
 include ':common'
 include ':common-ui'
+include ':recycler-ui'
+include ':recycler'
+include ':carousel-ui'
+include ':common-data'
