@@ -12,10 +12,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:name="ru.inteam.touristo.root.TouristoApp"
         android:supportsRtl="true"
         android:theme="@style/Theme.TouristoMobile">
         <activity
-            android:name="ru.inteam.touristo.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

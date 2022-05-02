@@ -6,18 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ru.inteam.touristo.ui_components.carousel.CarouselView
+    <androidx.appcompat.widget.Toolbar
+        style="@style/TKit.Toolbar.NavBack"
+        android:id="@+id/toolbar"
+        app:title="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ru.inteam.touristo.carousel.CarouselView
+        style="@style/TKit.Widget.Carousel.Image.Filled"
         android:id="@+id/carousel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#E9E9E9"/>
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        style="@style/TKit.Widget.ExtendedFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Карта"
+        app:icon="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        style="@style/TKit.Widget.Button.Rounded"
+        android:id="@+id/aboba"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:icon="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carousel" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/aboba">
+
+        <com.google.android.material.chip.Chip
+            style="@style/TKit.Widget.Chip.Checkable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/app_name"
+            app:chipIcon="@drawable/ic_back"/>
+
+    </com.google.android.material.chip.ChipGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

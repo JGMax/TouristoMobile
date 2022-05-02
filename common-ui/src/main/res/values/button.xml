@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TKit.Widget.Button">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Button</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="TKit.Widget.Button.Primary">
+        <item name="android:backgroundTint">@color/main_600</item>
+        <item name="android:textColor">@color/neutral_50</item>
+    </style>
+
+    <style name="TKit.Widget.Button.Rounded">
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Button.NotCaps</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:backgroundTint">@color/main_600</item>
+        <item name="android:textColor">@color/neutral_50</item>
+    </style>
+
+    <style name="TKit.Widget.Button.Text">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="elevation">0dp</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="iconTint">@color/main_600</item>
+        <item name="android:textColor">@color/main_600</item>
+    </style>
+
+    <style name="TKit.Widget.Button.Text.Secondary">
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Button.NotCaps</item>
+        <item name="iconSize">18dp</item>
+    </style>
+
+    <style name="TKit.Widget.Button.Text.Caption">
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Caption</item>
+    </style>
+</resources>

@@ -1,0 +1,16 @@
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+dependencies {
+
+    implementation Libs.coil
+    implementation AndroidX.material
+    implementation AndroidX.coreKtx
+
+    implementation project(":common")
+
+    api AndroidX.appCompat
+}

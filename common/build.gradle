@@ -1,0 +1,18 @@
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+dependencies {
+
+    implementation Libs.coroutines
+    implementation Libs.okHttp
+
+    implementation AndroidX.lifecycleRuntimeKtx
+    implementation AndroidX.coreKtx
+    implementation AndroidX.appCompat
+
+    api Libs.viewBinding
+    api AndroidX.lifecycleViewModelKtx
+}

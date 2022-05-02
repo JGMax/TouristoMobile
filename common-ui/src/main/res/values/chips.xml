@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TKit.Widget.Chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textAppearance">@style/TKit.TextAppearance.Subtitle</item>
+        <item name="android:textColor">@color/neutral_900</item>
+        <item name="chipIconTint">@color/neutral_900</item>
+        <item name="chipBackgroundColor">@color/tkit_chip_background</item>
+    </style>
+
+    <style name="TKit.Widget.Chip.Checkable">
+        <item name="android:checkable">true</item>
+        <item name="checkedIconEnabled">false</item>
+        <item name="checkedIcon">@null</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+dependencies {
+
+    implementation AndroidX.coreKtx
+    implementation Libs.coroutines
+
+    implementation project(":common")
+    implementation project(":common-ui")
+    implementation project(":recycler-ui")
+}

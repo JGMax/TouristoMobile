@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TKit.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="titleTextColor">@color/neutral_900</item>
+        <item name="titleTextAppearance">@style/TKit.TextAppearance.Header3</item>
+        <item name="contentInsetStart">16dp</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.DayNight</item>
+    </style>
+
+    <style name="TKit.Toolbar.NavBack">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="collapseIcon">@drawable/ic_back</item>
+    </style>
+</resources>
