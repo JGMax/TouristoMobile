@@ -1,11 +1,13 @@
-apply plugin: 'com.android.library'
-apply from: '../common-android.gradle'
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation AndroidX.coreKtx
+    implementation Libs.coroutines
 
     implementation project(":common")
     implementation project(":common-ui")

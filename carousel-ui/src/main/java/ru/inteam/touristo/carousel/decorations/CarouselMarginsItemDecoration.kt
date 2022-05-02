@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.inteam.touristo.recycler.util.getViewByAdapterPosition
 import ru.inteam.touristo.carousel.R
-import ru.inteam.touristo.ui_kit.images.ContentImageView
+import ru.inteam.touristo.common_ui.images.ContentImageView
 
 internal class CarouselMarginsItemDecoration : RecyclerView.ItemDecoration() {
 

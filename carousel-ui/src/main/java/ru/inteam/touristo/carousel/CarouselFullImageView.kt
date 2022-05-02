@@ -10,10 +10,10 @@ import ru.inteam.touristo.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.common.ui.view.reactive.clicks
 import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.carousel.model.CarouselItem
-import ru.inteam.touristo.ui_kit.images.ContentImageView
+import ru.inteam.touristo.common_ui.images.ContentImageView
 import java.lang.ref.WeakReference
 
-internal class CarouselFullImageView @JvmOverloads constructor(
+class CarouselFullImageView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0

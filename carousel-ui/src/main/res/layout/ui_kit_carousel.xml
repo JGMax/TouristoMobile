@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="ru.inteam.touristo.ui_kit.carousel.CarouselView">
+    tools:parentTag="ru.inteam.touristo.carousel.CarouselView"
+    tools:viewBindingIgnore="true">
 
     <ru.inteam.touristo.carousel.CarouselFullImageView
         android:id="@+id/full_image"

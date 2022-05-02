@@ -8,6 +8,7 @@ import coil.memory.MemoryCache
 import coil.request.CachePolicy
 
 class TouristoApp : Application(), ImageLoaderFactory {
+
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .allowHardware(true)

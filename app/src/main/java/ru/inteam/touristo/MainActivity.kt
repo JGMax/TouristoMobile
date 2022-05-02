@@ -10,6 +10,7 @@ import ru.inteam.touristo.carousel.CarouselView
 import ru.inteam.touristo.carousel.model.CarouselItem
 
 class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
+
     private val list: List<CarouselItem> by lazy {
         listOf(
             CarouselItem(buildResourceUri(R.drawable.test_photo)),

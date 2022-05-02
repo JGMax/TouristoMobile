@@ -2,18 +2,19 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="ru.inteam.touristo.carousel.CarouselFullImageView">
+    tools:parentTag="ru.inteam.touristo.carousel.CarouselFullImageView"
+    tools:viewBindingIgnore="true">
 
-    <ru.inteam.touristo.ui_kit.images.ContentImageView
+    <ru.inteam.touristo.common_ui.images.ContentImageView
         android:id="@+id/image"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/indicator"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/carousel_indicator_horizontal_margin"
         android:paddingVertical="@dimen/carousel_indicator_vertical_margin"
         android:src="@drawable/ic_indicator"

@@ -1,12 +1,13 @@
-apply plugin: 'com.android.library'
-apply from: '../common-android.gradle'
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 dependencies {
-    // Compressor
-    implementation 'id.zelory:compressor:3.0.1'
 
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation Libs.compressor
+    implementation Libs.coroutines
 
     implementation project(":common")
 }

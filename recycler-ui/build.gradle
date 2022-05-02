@@ -1,11 +1,14 @@
-apply plugin: 'com.android.library'
-apply from: '../common-android.gradle'
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 dependencies {
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
-    implementation project (":common")
+    implementation Libs.coroutines
 
-    api "androidx.recyclerview:recyclerview:1.2.1"
+    implementation project(":common")
+
+    api View.recyclerView
 }
