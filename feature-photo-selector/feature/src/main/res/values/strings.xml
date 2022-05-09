@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="photo_selector_title">Новая публикация</string>
+    <string name="photo_selector_all_images_bucket">Галерея</string>
+</resources>

@@ -1,0 +1,20 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+android {
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        ]
+    }
+}
+
+dependencies {
+    implementation Libs.coroutines
+
+    implementation project(':common')
+
+    api View.viewPager
+    api project(':ui-recycler')
+}

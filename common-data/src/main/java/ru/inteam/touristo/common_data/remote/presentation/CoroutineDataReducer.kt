@@ -34,11 +34,9 @@ internal class CoroutineDataReducer<T> :
     private fun loadingState() {
         state {
             val data = loadingState.data
-            val error = loadingState.exception
             when {
                 data != null -> copy(loadingState = Loading.WithData(data))
-                error != null -> copy(loadingState = Loading.WithException(error))
-                else -> this
+                else -> copy(loadingState = Loading.Default())
             }
         }
     }

@@ -1,0 +1,17 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    kotlinOptions {
+        freeCompilerArgs += ["-Xcontext-receivers"]
+    }
+}
+
+dependencies {
+    implementation AndroidX.lifecycleViewModelKtx
+    implementation Libs.koin
+
+    api project(':common-media')
+}

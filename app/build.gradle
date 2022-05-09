@@ -8,6 +8,10 @@ android {
     defaultConfig {
         applicationId AppConfig.applicationId
     }
+
+    kotlinOptions {
+        freeCompilerArgs += ["-Xcontext-receivers"]
+    }
 }
 
 dependencies {
@@ -24,11 +28,16 @@ dependencies {
     implementation Libs.retrofitGsonConverter
     implementation Libs.okHttpLoggingInterceptor
     implementation Libs.coil
+    implementation Libs.koin
 
     //debugImplementation Libs.leakCanary
 
-    implementation project(":common")
-    implementation project(":common-ui")
-    implementation project(":recycler-ui")
-    implementation project(":carousel-ui")
+    implementation project(':common')
+    implementation project(':common-ui')
+    implementation project(':ui-recycler')
+    implementation project(':ui-carousel')
+
+    implementation project(':feature-photo-selector:data')
+    implementation project(':feature-photo-selector:domain')
+    implementation project(':feature-photo-selector:feature')
 }

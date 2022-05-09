@@ -1,0 +1,22 @@
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xcontext-receivers",
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        ]
+    }
+}
+
+dependencies {
+    implementation Libs.compressor
+    implementation Libs.coroutines
+
+    implementation project(':common')
+    api project(':common-data')
+}

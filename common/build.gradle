@@ -5,14 +5,13 @@ plugins {
 }
 
 dependencies {
-
     implementation Libs.coroutines
     implementation Libs.okHttp
 
-    implementation AndroidX.lifecycleRuntimeKtx
-    implementation AndroidX.coreKtx
-    implementation AndroidX.appCompat
-
+    api AndroidX.coreKtx
+    api AndroidX.appCompat
     api Libs.viewBinding
+    api AndroidX.lifecycleExtensions
+    api AndroidX.lifecycleRuntimeKtx
     api AndroidX.lifecycleViewModelKtx
 }

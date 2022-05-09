@@ -4,9 +4,14 @@ plugins {
     id 'kotlin-android'
 }
 
+android {
+    kotlinOptions {
+        freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+    }
+}
+
 dependencies {
 
-    implementation Libs.compressor
     implementation Libs.coroutines
 
     implementation project(":common")

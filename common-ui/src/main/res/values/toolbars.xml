@@ -2,7 +2,7 @@
 <resources>
     <style name="TKit.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_height">56dp</item>
         <item name="titleTextColor">@color/neutral_900</item>
         <item name="titleTextAppearance">@style/TKit.TextAppearance.Header3</item>
         <item name="contentInsetStart">16dp</item>

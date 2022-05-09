@@ -55,10 +55,6 @@ fun BaseExtension.baseConfig() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = AppConfig.CompileOptions.kotlinJvmTarget
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xcontext-receivers",
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
-            )
         }
     }
 

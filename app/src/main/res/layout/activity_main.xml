@@ -33,7 +33,7 @@
 
     <Button
         style="@style/TKit.Widget.Button.Rounded"
-        android:id="@+id/aboba"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -45,7 +45,7 @@
     <com.google.android.material.chip.ChipGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/aboba">
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
         <com.google.android.material.chip.Chip
             style="@style/TKit.Widget.Chip.Checkable"

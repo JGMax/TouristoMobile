@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion
 
 object AppConfig {
-    const val applicationId = "ru.jteam.touristo"
+    const val applicationId = "ru.inteam.touristo"
     const val compileSdk = 31
     const val minSdk = 23
     const val targetSdk = 28

@@ -1,6 +1,7 @@
 package ru.inteam.touristo.common.tea.store
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import ru.inteam.touristo.common.tea.Actor
 import ru.inteam.touristo.common.tea.Reducer
@@ -10,12 +11,13 @@ import ru.inteam.touristo.common.tea.UiStateMapper
 class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal constructor(
     initialState: State,
     private val reducer: Reducer<State, Event, Action, Operation>,
-    private val actors: Store<*, *, *>.() -> List<Actor<Operation, Event>> = { listOf() }
+    private val actors: Store<State, Event, Action>.() -> List<Actor<Operation, Event>> = { listOf() }
 ) : Store<State, Event, Action>() {
 
     private val stateFlow = MutableStateFlow(initialState)
-    private val eventsFlow = MutableSharedFlow<Event>()
-    private val operationsFlow = MutableSharedFlow<Operation>()
+    private val eventsFlow = MutableSharedFlow<Event>(replay = 1)
+    private val operationsChannel = Channel<Operation>(Channel.BUFFERED)
+    private val operationsFlow = operationsChannel.consumeAsFlow()
     private val actionsFlow = MutableSharedFlow<Action>()
 
     init {
@@ -24,11 +26,11 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
 
     private fun start() {
         startMiddlewares()
-        startEffectsFlow()
+        startOperationsFlow()
         startEventsFlow()
     }
 
-    private fun startEffectsFlow() {
+    private fun startOperationsFlow() {
         operationsFlow.shareIn(storeScope + Dispatchers.Unconfined, SharingStarted.Eagerly)
     }
 
@@ -36,7 +38,7 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
         eventsFlow
             .map { reducer.reduce(stateFlow.value, it) }
             .onEach { command -> command.state?.let { stateFlow.emit(it) } }
-            .onEach { command -> command.operations.forEach { operationsFlow.emit(it) } }
+            .onEach { command -> command.operations.forEach { operationsChannel.send(it) } }
             .onEach { command -> command.actions.forEach { actionsFlow.emit(it) } }
             .launchIn(storeScope + Dispatchers.Unconfined)
     }

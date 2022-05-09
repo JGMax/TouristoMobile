@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="ContentImageView">
         <attr name="square" format="boolean" />
+        <!-- Listener works like shit if true -->
+        <attr name="smoothRender" format="boolean" />
     </declare-styleable>
 </resources>

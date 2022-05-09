@@ -1,3 +1,4 @@
+@file:Suppress("UNCHECKED_CAST")
 
 package ru.inteam.touristo.common.tea.store.factory
 
@@ -11,11 +12,10 @@ import ru.inteam.touristo.common.tea.Reducer
 import ru.inteam.touristo.common.tea.Store
 import ru.inteam.touristo.common.tea.store.TeaStore
 
-@Suppress("UNCHECKED_CAST")
 open class TeaStoreFactory<State : Any, Event : Any, Action : Any, Operation : Any>(
     private val initialState: State,
     private val reducer: Reducer<State, Event, Action, Operation>,
-    private val actors: Store<*, *, *>.() -> List<Actor<Operation, Event>> = { listOf() }
+    private val actors: Store<State, Event, Action>.() -> List<Actor<Operation, Event>> = { listOf() }
 ) : ViewModelProvider.Factory {
 
     constructor(
@@ -31,7 +31,7 @@ open class TeaStoreFactory<State : Any, Event : Any, Action : Any, Operation : A
 private fun <State : Any, Event : Any, Action : Any, Operation : Any> teaStore(
     initialState: State,
     reducer: Reducer<State, Event, Action, Operation>,
-    actors: Store<*, *, *>.() -> List<Actor<Operation, Event>> = { listOf() }
+    actors: Store<State, Event, Action>.() -> List<Actor<Operation, Event>> = { listOf() }
 ): Store<State, Event, Action> = TeaStore(initialState, reducer, actors)
 
 inline fun <reified S : Store<*, *, *>> ComponentActivity.TeaStore(

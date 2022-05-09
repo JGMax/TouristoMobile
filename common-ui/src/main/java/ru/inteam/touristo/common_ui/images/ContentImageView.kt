@@ -1,19 +1,15 @@
 package ru.inteam.touristo.common_ui.images
 
-import android.animation.Animator
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import coil.imageLoader
+import coil.request.Disposable
 import coil.request.ImageRequest
 import ru.inteam.touristo.common_ui.BuildConfig
-import ru.inteam.touristo.common_ui.shimmer.ShimmerView
-import ru.inteam.touristo.common_ui.shimmer.shimmerAnimator
 import ru.inteam.touristo.common_ui.R
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.min
 
 private const val TAG = "ContentImageView"
@@ -22,15 +18,14 @@ class ContentImageView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : AppCompatImageView(context, attributeSet, defStyleAttr), ShimmerView {
-    private var onLoadListener: ((ContentImageView) -> Unit)? = null
-    private val isRendering = AtomicBoolean(false)
-    override var anim: Animator? = shimmerAnimator()
-    private var isLoaded = false
-    private val isSquare: Boolean
+) : AppCompatImageView(context, attributeSet, defStyleAttr) {
+    private var currentLoad: Disposable? = null
+    private var onLoadListeners: MutableList<OnLoadListener> = mutableListOf()
+    private var isRendering = false
+    var isSquare: Boolean
+    var isSmoothRender: Boolean
 
     init {
-        attachViewToShimmer(this)
         val adjustViewBoundsAttr = context.obtainStyledAttributes(
             attributeSet,
             intArrayOf(android.R.attr.adjustViewBounds)
@@ -47,6 +42,7 @@ class ContentImageView @JvmOverloads constructor(
         )
         adjustViewBounds = adjustViewBoundsAttr.getBoolean(0, true)
         isSquare = customAttrs.getBoolean(R.styleable.ContentImageView_square, false)
+        isSmoothRender = customAttrs.getBoolean(R.styleable.ContentImageView_smoothRender, true)
         if (isSquare) {
             val scaleTypeIndex = scaleTypeAttrs.getInt(0, 6)
             scaleType = ScaleType.values()[scaleTypeIndex]
@@ -56,14 +52,14 @@ class ContentImageView @JvmOverloads constructor(
         customAttrs.recycle()
     }
 
-    override fun onVisibilityChanged(changedView: View, prevVisibility: Int) {
-        visibilityChanged(prevVisibility, visibility)
-        super.onVisibilityChanged(changedView, visibility)
+    fun addOnLoadListener(listener: OnLoadListener?) {
+        if (listener != null && listener !in onLoadListeners) {
+            onLoadListeners.add(listener)
+        }
     }
 
-    fun setOnLoadListener(listener: (ContentImageView) -> Unit) {
-        if (isLoaded) listener(this)
-        onLoadListener = listener
+    fun removeOnLoadListener(listener: OnLoadListener) {
+        onLoadListeners.removeAll { it == listener }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -81,49 +77,54 @@ class ContentImageView @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (isRendering.getAndSet(false)) {
-            onLoadListener?.invoke(this)
+        if (isRendering) {
+            isRendering = false
+            var i = 0
+            while (i < onLoadListeners.size) {
+                onLoadListeners[i].invoke(this)
+                i++
+            }
         }
     }
 
     fun load(uri: Uri) {
         load(uri) {
-            crossfade(true)
-            placeholder(R.drawable.shimmer_image)
-            target {
-                setImageDrawable(it)
-                isRendering.set(true)
+            if (isSmoothRender) {
+                placeholder(R.drawable.placeholder_image)
             }
+            crossfade(isSmoothRender)
         }
     }
 
     fun load(uri: Uri, config: ImageRequest.Builder.() -> Unit) {
-        val request = ImageRequest.Builder(context)
+        currentLoad?.dispose()
+        val requestBuilder = ImageRequest.Builder(context)
             .data(uri)
             .listener(
                 onStart = {
-                    startShimmer()
-                    isLoaded = false
-                },
-                onSuccess = { _, _ ->
-                    stopShimmer()
-                    isLoaded = true
+                    if (!isSmoothRender) {
+                        setImageResource(R.drawable.placeholder_image)
+                    }
                 },
                 onError = { _, result ->
                     if (BuildConfig.DEBUG) {
                         Log.e(TAG, result.throwable.stackTraceToString())
                     }
-                    stopShimmer()
-                    isLoaded = true
                 }
             )
             .apply(config)
-            .build()
-        context.imageLoader.enqueue(request)
+        if (isSmoothRender) {
+            requestBuilder.target(this)
+        } else {
+            requestBuilder.target {
+                isRendering = true
+                setImageDrawable(it)
+            }
+        }
+        currentLoad = context.imageLoader.enqueue(requestBuilder.build())
     }
 
-    override fun stopShimmer() {
-        super.stopShimmer()
-        alpha = 1.0f
+    fun interface OnLoadListener {
+        operator fun invoke(view: ContentImageView)
     }
 }
