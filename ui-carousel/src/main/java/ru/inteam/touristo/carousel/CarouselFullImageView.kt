@@ -26,8 +26,8 @@ class CarouselFullImageView @JvmOverloads constructor(
     private var currentFullItem: CarouselItem? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.ui_kit_carousel_full_image, this, true)
-        image = findViewById(R.id.image)
+        LayoutInflater.from(context).inflate(R.layout.ui_carousel_full_image, this, true)
+        image = findViewById(R.id.carousel_image)
         indicator = findViewById(R.id.indicator)
 
         indicator.clicks()

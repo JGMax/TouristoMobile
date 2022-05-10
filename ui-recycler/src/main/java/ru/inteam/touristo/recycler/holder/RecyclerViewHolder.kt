@@ -3,24 +3,29 @@ package ru.inteam.touristo.recycler.holder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import ru.inteam.touristo.recycler.clicks.ClicksManager
 import ru.inteam.touristo.recycler.item.RecyclerItem
-import java.util.concurrent.atomic.AtomicBoolean
 
 class RecyclerViewHolder internal constructor(
-    view: View
+    view: View,
+    viewType: ViewType?,
+    clicksManager: ClicksManager
 ) : RecyclerView.ViewHolder(view) {
-    private var isFresh = AtomicBoolean(true)
-    private var binding: ViewBinding? = null
 
-    fun bind(item: RecyclerItem<*, *>) {
-        if (isFresh.getAndSet(false)) {
-            binding = item.provideViewBinding(itemView)
-            binding?.let { item.initBy(it, this) }
-        }
-        binding?.let { item.bindTo(it) }
+    internal lateinit var binding: ViewBinding
+
+    init {
+        viewType?.init(this, clicksManager)
     }
 
-    fun bind(item: RecyclerItem<*, *>, payloads: MutableList<Any>) {
-        binding?.let { item.bindTo(it, payloads) }
+    fun bind(item: RecyclerItem) {
+        item.bind(this)
+    }
+
+    fun bind(item: RecyclerItem, payloads: MutableList<Any>) {
+        item.bind(this, payloads)
     }
 }
+
+@Suppress("UNCHECKED_CAST")
+fun <T : ViewBinding> RecyclerViewHolder.binding(init: T.() -> Unit) = (binding as T).init()

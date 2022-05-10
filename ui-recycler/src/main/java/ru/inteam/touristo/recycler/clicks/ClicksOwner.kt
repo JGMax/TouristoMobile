@@ -7,18 +7,18 @@ interface ClicksOwner {
     val clicksManager: ClicksManager
 }
 
-inline fun <reified T : RecyclerItem<*, T>> ClicksOwner.clicks(): Flow<ClickEvent.ItemClick> {
+inline fun <reified T : RecyclerItem> ClicksOwner.clicks(): Flow<ClickEvent.ItemClick> {
     return clicksManager.clicks<T>()
 }
 
-inline fun <reified T : RecyclerItem<*, T>> ClicksOwner.clicks(viewId: Int): Flow<T> {
+inline fun <reified T : RecyclerItem> ClicksOwner.clicks(viewId: Int): Flow<T> {
     return clicksManager.clicks(viewId)
 }
 
-inline fun <reified T : RecyclerItem<*, T>> ClicksOwner.longClicks(): Flow<LongClickEvent.ItemLongClick> {
+inline fun <reified T : RecyclerItem> ClicksOwner.longClicks(): Flow<LongClickEvent.ItemLongClick> {
     return clicksManager.longClicks<T>()
 }
 
-inline fun <reified T : RecyclerItem<*, T>> ClicksOwner.longClicks(viewId: Int): Flow<T> {
+inline fun <reified T : RecyclerItem> ClicksOwner.longClicks(viewId: Int): Flow<T> {
     return clicksManager.longClicks(viewId)
 }

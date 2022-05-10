@@ -4,7 +4,8 @@ import ru.inteam.touristo.carousel.model.CarouselItem
 import ru.inteam.touristo.recycler.item.RecyclerItem
 
 internal data class PhotoSelectorUiState(
-    val buckets: Set<String>,
+    val buckets: List<String>,
+    val currentBucket: String,
     val selected: List<CarouselItem>,
-    val content: List<RecyclerItem<*, *>>
+    val content: List<RecyclerItem>
 )

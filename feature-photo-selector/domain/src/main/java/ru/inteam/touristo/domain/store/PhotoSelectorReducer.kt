@@ -7,7 +7,9 @@ import ru.inteam.touristo.common_data.state.map
 import ru.inteam.touristo.common_media.shared_media.model.media.CRField.MediaField.BUCKET_DISPLAY_NAME
 import ru.inteam.touristo.common_media.shared_media.model.media.types.MediaType
 import ru.inteam.touristo.common_media.shared_media.util.getFieldValue
+import ru.inteam.touristo.domain.store.PhotoSelectorOperation.Load
 import ru.inteam.touristo.domain.store.model.PhotoSelectorMedia
+import ru.inteam.touristo.domain.store.PhotoSelectorUiEvent as UiEvent
 
 internal class PhotoSelectorReducer :
     Reducer<PhotoSelectorState, PhotoSelectorEvent, Nothing, PhotoSelectorOperation>() {
@@ -31,19 +33,25 @@ internal class PhotoSelectorReducer :
                 }
                 copy(
                     loadingState = grouped,
-                    selected = selected.ifEmpty { listOfNotNull(event.loadingState.data?.first()?.contentUri) }
+                    selected = selected.ifEmpty {
+                        listOfNotNull(event.loadingState.data?.first()?.contentUri)
+                    }
                 )
             }
-            is PhotoSelectorUiEvent -> reduceUiEvent(event)
+            is UiEvent -> reduceUiEvent(event)
         }
     }
 
-    private fun reduceUiEvent(event: PhotoSelectorUiEvent) {
+    private fun reduceUiEvent(event: UiEvent) {
         when (event) {
-            is PhotoSelectorUiEvent.LoadAll -> {
-                operations(PhotoSelectorOperation.Load(allMediaSelector))
+            is UiEvent.LoadAll -> {
+                operations(Load(allMediaSelector))
             }
-            is PhotoSelectorUiEvent.ImageClicked -> {
+            is UiEvent.LoadBucket -> {
+                operations(Load(allMediaSelector))
+                state { copy(currentBucket = event.bucket) }
+            }
+            is UiEvent.ImageClicked -> {
                 state {
                     val mutableSelected = selected.toMutableList()
                     if (event.imageUri !in mutableSelected) {

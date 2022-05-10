@@ -11,6 +11,7 @@ import ru.inteam.touristo.recycler.clicks.ClicksManager
 import ru.inteam.touristo.recycler.clicks.ClicksOwner
 import ru.inteam.touristo.recycler.clicks.LongClickEvent.ItemLongClick
 import ru.inteam.touristo.recycler.diff_util.DefaultDiffCallback
+import ru.inteam.touristo.recycler.holder.ViewTypeFactory
 import ru.inteam.touristo.recycler.item.RecyclerItem
 import ru.inteam.touristo.recycler.pagination.PageEvent
 import ru.inteam.touristo.recycler.pagination.PaginationOwner
@@ -29,21 +30,27 @@ class RecyclerManager internal constructor(
     val itemCount: Int
         get() = adapter.itemCount
 
-    fun submitList(items: List<RecyclerItem<*, *>>, onCommit: () -> Unit = {}) {
+    fun submitList(items: List<RecyclerItem>, onCommit: () -> Unit = {}) {
         adapter.submitList(items, onCommit)
     }
 }
 
 class RecyclerManagerBuilder internal constructor(private var recyclerView: RecyclerView?) {
-    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>? = null
+    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem>? = null
     private var paginationOwner: PaginationOwner? = null
     private var layoutManager: RecyclerView.LayoutManager =
         LinearLayoutManager(recyclerView?.context)
     private var adapter: RecyclerAdapter? = null
     private var decorations: Array<out RecyclerView.ItemDecoration> = emptyArray()
+    private var viewTypeFactory: ViewTypeFactory? = null
+
+    fun viewTypeFactory(viewTypeFactory: ViewTypeFactory): RecyclerManagerBuilder {
+        this.viewTypeFactory = viewTypeFactory
+        return this
+    }
 
     fun diffCallback(
-        diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>
+        diffCallback: DiffUtil.ItemCallback<RecyclerItem>
     ): RecyclerManagerBuilder {
         this.diffCallback = diffCallback
         return this
@@ -77,7 +84,7 @@ class RecyclerManagerBuilder internal constructor(private var recyclerView: Recy
     }
 
     fun build(): RecyclerManager {
-        val adapter = adapter ?: RecyclerAdapter(paginationOwner, diffCallback)
+        val adapter = adapter ?: RecyclerAdapter(paginationOwner, diffCallback, viewTypeFactory)
         recyclerView?.let {
             it.layoutManager = layoutManager
             it.adapter = adapter

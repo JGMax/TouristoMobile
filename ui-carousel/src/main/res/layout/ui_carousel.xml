@@ -12,5 +12,5 @@
         android:id="@+id/carousel_list"
         android:overScrollMode="never"
         android:clipToPadding="false"
-        tools:listitem="@layout/ui_kit_carousel_item" />
+        tools:listitem="@layout/ui_carousel_item" />
 </merge>

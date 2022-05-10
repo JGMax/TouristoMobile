@@ -6,7 +6,7 @@
     tools:viewBindingIgnore="true">
 
     <ru.inteam.touristo.common_ui.images.ContentImageView
-        android:id="@+id/image"
+        android:id="@+id/carousel_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:src="@tools:sample/avatars" />

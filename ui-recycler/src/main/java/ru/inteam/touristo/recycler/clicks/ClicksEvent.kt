@@ -7,10 +7,10 @@ import java.lang.ref.WeakReference
 
 sealed class ClickEvent(val view: WeakReference<View>) {
     class HolderClick(val holder: RecyclerViewHolder, view: WeakReference<View>) : ClickEvent(view)
-    class ItemClick(val item: RecyclerItem<*, *>, view: WeakReference<View>) : ClickEvent(view)
+    class ItemClick(val item: RecyclerItem, view: WeakReference<View>) : ClickEvent(view)
 }
 
 sealed class LongClickEvent(val view: WeakReference<View>) {
     class HolderLongClick(val holder: RecyclerViewHolder, view: WeakReference<View>) : LongClickEvent(view)
-    class ItemLongClick(val item: RecyclerItem<*, *>, view: WeakReference<View>) : LongClickEvent(view)
+    class ItemLongClick(val item: RecyclerItem, view: WeakReference<View>) : LongClickEvent(view)
 }

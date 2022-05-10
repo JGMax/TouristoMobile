@@ -7,10 +7,10 @@ plugins {
 dependencies {
 
     implementation Libs.coil
-    implementation AndroidX.material
     implementation AndroidX.coreKtx
 
     implementation project(":common")
 
     api AndroidX.appCompat
+    api AndroidX.material
 }

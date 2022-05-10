@@ -20,15 +20,40 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+    <Button
+        android:id="@+id/group_selector"
+        style="@style/TKit.Widget.Button.Text.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:paddingVertical="18dp"
+        android:textColor="@color/neutral_800"
+        app:icon="@drawable/ic_chevron_down"
+        app:iconGravity="end"
+        app:iconTint="@color/neutral_800"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/carousel"
+        tools:text="Галерея" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/carousel"
+        app:layout_constraintTop_toBottomOf="@id/group_selector"
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/photo_selector_photo_item"
         tools:spanCount="4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

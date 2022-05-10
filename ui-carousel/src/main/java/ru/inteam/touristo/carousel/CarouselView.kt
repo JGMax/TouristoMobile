@@ -4,14 +4,12 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.doOnLayout
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,6 +19,7 @@ import ru.inteam.touristo.carousel.decorations.CarouselCornersDecoration
 import ru.inteam.touristo.carousel.decorations.CarouselMarginsDecoration
 import ru.inteam.touristo.carousel.layout_manager.CarouselLayoutManager
 import ru.inteam.touristo.carousel.model.CarouselItem
+import ru.inteam.touristo.carousel.model.CarouselViewTypeFactory
 import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.recycler.RecyclerManager
 import ru.inteam.touristo.recycler.clicks.ClickEvent.ItemClick
@@ -46,7 +45,7 @@ class CarouselView @JvmOverloads constructor(
     private val clicks = MutableSharedFlow<ItemClick>(extraBufferCapacity = 10)
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.ui_kit_carousel, this, true)
+        LayoutInflater.from(context).inflate(R.layout.ui_carousel, this, true)
         image = findViewById(R.id.carousel_full_image)
         recycler = findViewById(R.id.carousel_list)
 
@@ -54,6 +53,7 @@ class CarouselView @JvmOverloads constructor(
         snapHelper = LinearSnapHelper().apply { attachToRecyclerView(recycler) }
         recyclerManager = recycler.managerBuilder()
             .layoutManager(CarouselLayoutManager(context))
+            .viewTypeFactory(CarouselViewTypeFactory())
             .diffCallback(DefaultDiffCallback())
             .decorations(CarouselMarginsDecoration(), CarouselCornersDecoration())
             .build()

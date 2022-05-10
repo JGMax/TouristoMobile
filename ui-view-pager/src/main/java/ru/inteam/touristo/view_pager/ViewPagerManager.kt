@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import ru.inteam.touristo.recycler.adapter.RecyclerAdapter
 import ru.inteam.touristo.recycler.clicks.ClicksOwner
+import ru.inteam.touristo.recycler.holder.ViewTypeFactory
 import ru.inteam.touristo.recycler.item.RecyclerItem
 
 class ViewPagerManager internal constructor(
@@ -25,7 +26,7 @@ class ViewPagerManager internal constructor(
         pager.setCurrentItem(position, isSmoothScroll)
     }
 
-    fun setCurrentItem(item: RecyclerItem<*, *>, isSmoothScroll: Boolean = true) {
+    fun setCurrentItem(item: RecyclerItem, isSmoothScroll: Boolean = true) {
         val position = adapter.positionOf(item)
         setCurrentItem(position, isSmoothScroll)
     }
@@ -41,25 +42,31 @@ class ViewPagerManager internal constructor(
         invokeOnClose { pager.unregisterOnPageChangeCallback(listener) }
     }
 
-    fun currentItem(): RecyclerItem<*, *> {
+    fun currentItem(): RecyclerItem {
         return adapter[currentItemPosition]
     }
 
-    fun submitList(items: List<RecyclerItem<*, *>>, onCommit: () -> Unit = {}) {
+    fun submitList(items: List<RecyclerItem>, onCommit: () -> Unit = {}) {
         adapter.submitList(items, onCommit)
     }
 }
 
 class ViewPagerManagerBuilder internal constructor(private var pager: ViewPager2?) {
-    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>? = null
+    private var diffCallback: DiffUtil.ItemCallback<RecyclerItem>? = null
     private var adapter: RecyclerAdapter? = null
     private var decorations: Array<out RecyclerView.ItemDecoration> = emptyArray()
     private var offscreenPageLimit: Int = 3
     private var orientation: Int = ViewPager2.ORIENTATION_HORIZONTAL
     private var pageTransformer: ViewPager2.PageTransformer? = null
+    private var viewTypeFactory: ViewTypeFactory? = null
+
+    fun viewTypeFactory(viewTypeFactory: ViewTypeFactory): ViewPagerManagerBuilder {
+        this.viewTypeFactory = viewTypeFactory
+        return this
+    }
 
     fun diffCallback(
-        diffCallback: DiffUtil.ItemCallback<RecyclerItem<*, *>>
+        diffCallback: DiffUtil.ItemCallback<RecyclerItem>
     ): ViewPagerManagerBuilder {
         this.diffCallback = diffCallback
         return this
@@ -98,7 +105,7 @@ class ViewPagerManagerBuilder internal constructor(private var pager: ViewPager2
     }
 
     fun build(): ViewPagerManager {
-        val adapter = adapter ?: RecyclerAdapter(null, diffCallback)
+        val adapter = adapter ?: RecyclerAdapter(null, diffCallback, viewTypeFactory)
         pager?.let {
             it.offscreenPageLimit = offscreenPageLimit
             it.adapter = adapter
