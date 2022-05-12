@@ -12,7 +12,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
-        app:title="@string/photo_selector_title" />
+        app:title="@string/photo_selector_title">
+
+        <ImageButton
+            android:id="@+id/accept"
+            style="@style/TKit.Widget.Button.Text.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/ic_check"
+            app:tint="@color/main_600" />
+
+        <Button
+            android:id="@+id/selection_button"
+            style="@style/TKit.Widget.Button.Rounded"
+            android:stateListAnimator="@null"
+            app:elevation="0dp"
+            android:backgroundTint="@color/base_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            app:iconTint="@color/neutral_900"
+            app:icon="@drawable/ic_many" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ru.inteam.touristo.carousel.CarouselView
         android:id="@+id/carousel"
@@ -23,7 +45,7 @@
     <Button
         android:id="@+id/group_selector"
         style="@style/TKit.Widget.Button.Text.Secondary"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
         android:paddingVertical="18dp"

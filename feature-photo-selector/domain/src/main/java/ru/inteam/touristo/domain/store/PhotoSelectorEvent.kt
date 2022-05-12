@@ -12,6 +12,8 @@ sealed class PhotoSelectorEvent {
 
 sealed class PhotoSelectorUiEvent : PhotoSelectorEvent() {
     object LoadAll : PhotoSelectorUiEvent()
+    object ChangeSelectionStyle : PhotoSelectorUiEvent()
+    object AcceptSelection : PhotoSelectorUiEvent()
 
     class LoadBucket(val bucket: String) : PhotoSelectorUiEvent()
     class ImageClicked(val imageUri: Uri) : PhotoSelectorUiEvent()
