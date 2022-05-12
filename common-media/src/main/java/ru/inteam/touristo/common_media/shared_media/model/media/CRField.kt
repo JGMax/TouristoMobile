@@ -13,6 +13,8 @@ sealed class CRField<T : Any>(val value: String, val kClass: KClass<T>) {
     object _COUNT : CRField<Int>(BaseColumns._COUNT, Int::class)
 
     sealed class MediaField<T : Any>(value: String, kClass: KClass<T>) : CRField<T>(value, kClass) {
+        @RequiresApi(Build.VERSION_CODES.Q)
+        object DATE_TAKEN : MediaField<Int>(MediaColumns.DATE_TAKEN, Int::class)
         object DATE_ADDED : MediaField<Int>(MediaColumns.DATE_ADDED, Int::class)
         object DATE_MODIFIED : MediaField<Int>(MediaColumns.DATE_MODIFIED, Int::class)
 

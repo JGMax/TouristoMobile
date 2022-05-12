@@ -69,7 +69,6 @@ class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
 
         lifecycleScope.launchWhenResumed {
             storage.data(MediaType.Images())
-                .onEach { println("xxx: $it") }
                 .mapNotNull { it.data }
                 .map { it.map { CarouselItem(it.contentUri) } }
                 .onEach { carousel.submitItems(it) }

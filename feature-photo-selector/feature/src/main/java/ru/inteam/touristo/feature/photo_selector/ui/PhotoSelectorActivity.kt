@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,8 +21,9 @@ import ru.inteam.touristo.common.ui.permission.hasPermission
 import ru.inteam.touristo.common.ui.permission.permissionDelegate
 import ru.inteam.touristo.common.ui.toolbar.attachToolbar
 import ru.inteam.touristo.common.ui.view.reactive.clicks
+import ru.inteam.touristo.common.util.toast
 import ru.inteam.touristo.domain.store.PhotoSelectorAction
-import ru.inteam.touristo.domain.store.PhotoSelectorAction.NavigateNext
+import ru.inteam.touristo.domain.store.PhotoSelectorAction.*
 import ru.inteam.touristo.domain.store.PhotoSelectorStore
 import ru.inteam.touristo.domain.store.PhotoSelectorStoreFactory
 import ru.inteam.touristo.domain.store.PhotoSelectorUiEvent.*
@@ -96,7 +98,6 @@ class PhotoSelectorActivity : AppCompatActivity(R.layout.photo_selector_activity
 
         popup.setOnMenuItemClickListener {
             store.dispatch(LoadBucket(it.title.toString()))
-            binding.recycler.smoothScrollToPosition(0)
             true
         }
 
@@ -107,7 +108,12 @@ class PhotoSelectorActivity : AppCompatActivity(R.layout.photo_selector_activity
 
     private fun render(state: PhotoSelectorUiState) {
         binding.carousel.submitItems(state.selected)
-        recycler.submitList(state.content)
+        val prevBucket = binding.groupSelector.text
+        recycler.submitList(state.content) {
+            if (prevBucket != state.currentBucket) {
+                binding.recycler.scrollToPosition(0)
+            }
+        }
         binding.groupSelector.text = state.currentBucket
         binding.selectionButton.backgroundTintList = ColorStateList.valueOf(state.selectionButtonTint)
 
@@ -118,6 +124,7 @@ class PhotoSelectorActivity : AppCompatActivity(R.layout.photo_selector_activity
     private fun handleAction(action: PhotoSelectorAction) {
         when(action) {
             is NavigateNext -> println("xxx: navigate")
+            is SelectedPhotosLimit -> toast(getString(R.string.photo_selector_limit_message, action.limit))
         }
     }
 }

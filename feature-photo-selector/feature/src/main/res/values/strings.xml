@@ -2,4 +2,5 @@
 <resources>
     <string name="photo_selector_title">Новая публикация</string>
     <string name="photo_selector_all_images_bucket">Галерея</string>
+    <string name="photo_selector_limit_message">Можно выбрать не более %d фото</string>
 </resources>
