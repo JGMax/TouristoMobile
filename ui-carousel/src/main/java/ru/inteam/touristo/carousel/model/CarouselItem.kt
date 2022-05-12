@@ -24,6 +24,6 @@ internal class CarouselItemViewType : ViewType() {
     override fun init(
         holder: RecyclerViewHolder
     ) = holder.binding(UiCarouselItemBinding.bind(holder.itemView)) {
-        clicks(carouselImage.clicks(), holder)
+        clicks(carouselImage, holder)
     }
 }

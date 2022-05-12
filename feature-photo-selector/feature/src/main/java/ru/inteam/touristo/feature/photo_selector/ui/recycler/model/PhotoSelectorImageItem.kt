@@ -1,7 +1,6 @@
 package ru.inteam.touristo.feature.photo_selector.ui.recycler.model
 
 import android.net.Uri
-import ru.inteam.touristo.common.ui.view.reactive.clicks
 import ru.inteam.touristo.common.ui.view.scale
 import ru.inteam.touristo.feature.photo_selector.R
 import ru.inteam.touristo.feature.photo_selector.databinding.PhotoSelectorPhotoItemBinding
@@ -32,7 +31,7 @@ internal class PhotoSelectorImageItemViewType : ViewType() {
     override fun init(
         holder: RecyclerViewHolder
     ) = holder.binding(PhotoSelectorPhotoItemBinding.bind(holder.itemView)) {
-        clicks(image.clicks(), holder)
+        clicks(image, holder)
         println("xxx: $holder")
     }
 }

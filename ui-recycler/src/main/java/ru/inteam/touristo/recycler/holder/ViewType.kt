@@ -4,14 +4,16 @@ import android.view.View
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.flow.Flow
 import ru.inteam.touristo.recycler.clicks.ClickEvent
+import ru.inteam.touristo.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.recycler.clicks.ClicksManager
 import ru.inteam.touristo.recycler.clicks.LongClickEvent
+import ru.inteam.touristo.recycler.clicks.LongClickEvent.ItemLongClick
 
 @Suppress("UNCHECKED_CAST")
 abstract class ViewType {
     private lateinit var clicksManager: ClicksManager
 
-    abstract fun init(holder: RecyclerViewHolder)
+    protected abstract fun init(holder: RecyclerViewHolder)
 
     internal fun init(holder: RecyclerViewHolder, clicksManager: ClicksManager) {
         this.clicksManager = clicksManager
@@ -26,21 +28,11 @@ abstract class ViewType {
         binding.block()
     }
 
-    @JvmName("clicksEvent")
-    protected fun clicks(flow: Flow<ClickEvent.ItemClick>) {
-        clicksManager.clicks(flow)
+    protected fun clicks(view: View, viewHolder: RecyclerViewHolder) {
+        clicksManager.clicks(view, viewHolder)
     }
 
-    @JvmName("longClicksEvent")
-    protected fun longClicks(flow: Flow<LongClickEvent.ItemLongClick>) {
-        clicksManager.longClicks(flow)
-    }
-
-    protected fun clicks(flow: Flow<View>, viewHolder: RecyclerViewHolder) {
-        clicksManager.clicks(flow, viewHolder)
-    }
-
-    protected fun longClicks(flow: Flow<View>, viewHolder: RecyclerViewHolder) {
-        clicksManager.longClicks(flow, viewHolder)
+    protected fun longClicks(view: View, viewHolder: RecyclerViewHolder) {
+        clicksManager.longClicks(view, viewHolder)
     }
 }

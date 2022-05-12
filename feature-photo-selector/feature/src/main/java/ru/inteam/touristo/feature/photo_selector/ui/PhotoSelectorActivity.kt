@@ -78,24 +78,17 @@ class PhotoSelectorActivity : AppCompatActivity(R.layout.photo_selector_activity
                     .onEach { store.dispatch(ImageClicked(it.source)) }
                     .collect()
             }
-//            launch {
-//                recycler.clicksUnit()
-//                    .onEach { println("xxx: fuck") }
-//                    .flatMapMerge { it }
-//                    .onEach { println("xxx: fuck") }
-//                    .collect()
-//            }
-//            launch {
-//                recycler.clicks<PhotoSelectorImageItem>(R.id.image)
-//                    .onEach { println("xxx: ${it}") }
-//                    .collect()
-//            }
-//
-//            launch {
-//                recycler.clicks<PhotoSelectorImageItem>(R.id.image)
-//                    .onEach { println("xxx: фищиф ${it}") }
-//                    .collect()
-//            }
+            launch {
+                recycler.clicks<PhotoSelectorImageItem>(R.id.image)
+                    .onEach { println("xxx: ${it}") }
+                    .collect()
+            }
+
+            launch {
+                recycler.clicks<PhotoSelectorImageItem>(R.id.image)
+                    .onEach { println("xxx: фищиф ${it}") }
+                    .collect()
+            }
 
             launch {
                 binding.groupSelector.clicks()
