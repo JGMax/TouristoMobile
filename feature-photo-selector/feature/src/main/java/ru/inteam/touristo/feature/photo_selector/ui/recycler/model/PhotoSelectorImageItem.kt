@@ -1,9 +1,12 @@
 package ru.inteam.touristo.feature.photo_selector.ui.recycler.model
 
 import android.net.Uri
+import android.os.Bundle
 import ru.inteam.touristo.common.ui.view.scale
 import ru.inteam.touristo.feature.photo_selector.R
 import ru.inteam.touristo.feature.photo_selector.databinding.PhotoSelectorPhotoItemBinding
+import ru.inteam.touristo.feature.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback.Companion.SELECTED_PAYLOAD
+import ru.inteam.touristo.feature.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback.Companion.SOURCE_PAYLOAD
 import ru.inteam.touristo.recycler.holder.RecyclerViewHolder
 import ru.inteam.touristo.recycler.holder.ViewType
 import ru.inteam.touristo.recycler.holder.binding
@@ -22,7 +25,23 @@ internal data class PhotoSelectorImageItem(
     override fun bind(holder: RecyclerViewHolder) = holder.binding<PhotoSelectorPhotoItemBinding> {
         image.scale(scale)
         image.load(source)
-        println("xxx: bind $holder")
+    }
+
+    override fun bind(
+        holder: RecyclerViewHolder,
+        payloads: MutableList<Any>
+    ) = holder.binding<PhotoSelectorPhotoItemBinding> {
+        val bundle = payloads.firstOrNull()
+        if (bundle is Bundle) {
+            if (bundle.getBoolean(SOURCE_PAYLOAD)) {
+                image.load(source)
+            }
+            if (bundle.getBoolean(SELECTED_PAYLOAD)) {
+                image.scale(scale)
+            }
+        } else {
+            super.bind(holder, payloads)
+        }
     }
 }
 
@@ -32,6 +51,5 @@ internal class PhotoSelectorImageItemViewType : ViewType() {
         holder: RecyclerViewHolder
     ) = holder.binding(PhotoSelectorPhotoItemBinding.bind(holder.itemView)) {
         clicks(image, holder)
-        println("xxx: $holder")
     }
 }

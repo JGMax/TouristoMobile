@@ -29,6 +29,7 @@ import ru.inteam.touristo.feature.photo_selector.ui.mapper.PhotoSelectorUiStateM
 import ru.inteam.touristo.feature.photo_selector.ui.model.PhotoSelectorUiState
 import ru.inteam.touristo.feature.photo_selector.ui.recycler.model.PhotoSelectorImageItem
 import ru.inteam.touristo.feature.photo_selector.ui.recycler.decorations.PhotoSelectorItemDecoration
+import ru.inteam.touristo.feature.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback
 import ru.inteam.touristo.feature.photo_selector.ui.recycler.factory.PhotoSelectorViewTypeFactory
 import ru.inteam.touristo.recycler.RecyclerManager
 import ru.inteam.touristo.recycler.clicks.clicks
@@ -65,6 +66,7 @@ class PhotoSelectorActivity : AppCompatActivity(R.layout.photo_selector_activity
     private fun initViews() {
         recycler = binding.recycler.managerBuilder()
             .decorations(PhotoSelectorItemDecoration())
+            .diffCallback(PhotoSelectorDiffCallback())
             .viewTypeFactory(PhotoSelectorViewTypeFactory())
             .layoutManager(GridLayoutManager(this, 4))
             .build()
