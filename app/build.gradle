@@ -37,7 +37,7 @@ dependencies {
     implementation project(':ui-recycler')
     implementation project(':ui-carousel')
 
-    implementation project(':feature-photo-selector:data')
-    implementation project(':feature-photo-selector:domain')
-    implementation project(':feature-photo-selector:feature')
+    implementation project(':feature-post-creation:data')
+    implementation project(':feature-post-creation:domain')
+    implementation project(':feature-post-creation:feature')
 }

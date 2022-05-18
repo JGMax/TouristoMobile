@@ -9,9 +9,10 @@ dependencies {
     implementation Libs.okHttp
 
     api AndroidX.coreKtx
+    api AndroidX.fragmentKtx
     api AndroidX.appCompat
-    api Libs.viewBinding
     api AndroidX.lifecycleExtensions
     api AndroidX.lifecycleRuntimeKtx
     api AndroidX.lifecycleViewModelKtx
+    api Libs.viewBinding
 }

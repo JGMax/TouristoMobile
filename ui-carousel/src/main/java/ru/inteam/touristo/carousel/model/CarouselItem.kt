@@ -10,6 +10,7 @@ import ru.inteam.touristo.recycler.holder.binding
 import ru.inteam.touristo.recycler.item.RecyclerItem
 
 data class CarouselItem(
+    override val itemId: String,
     val source: Uri
 ) : RecyclerItem() {
     override val layoutId: Int = R.layout.ui_carousel_item

@@ -6,11 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import ru.inteam.touristo.recycler.adapter.RecyclerAdapter
-import ru.inteam.touristo.recycler.clicks.ClickEvent.ItemClick
-import ru.inteam.touristo.recycler.clicks.ClicksManager
 import ru.inteam.touristo.recycler.clicks.ClicksOwner
-import ru.inteam.touristo.recycler.clicks.LongClickEvent.ItemLongClick
-import ru.inteam.touristo.recycler.diff_util.DefaultDiffCallback
 import ru.inteam.touristo.recycler.holder.ViewTypeFactory
 import ru.inteam.touristo.recycler.item.RecyclerItem
 import ru.inteam.touristo.recycler.pagination.PageEvent
@@ -101,3 +97,7 @@ fun RecyclerView.managerBuilder(): RecyclerManagerBuilder {
 }
 
 fun RecyclerView.manager(): RecyclerManager = managerBuilder().build()
+
+fun RecyclerView.manager(builder: RecyclerManagerBuilder.() -> Unit): RecyclerManager {
+    return managerBuilder().apply(builder).build()
+}

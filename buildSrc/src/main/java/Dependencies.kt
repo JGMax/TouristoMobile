@@ -7,7 +7,7 @@ object Libs {
         const val viewBinding = "1.5.3"
         const val okHttp = "4.9.3"
         const val retrofit = "2.9.0"
-        const val koin = "3.1.6"
+        const val koin = "3.2.0"
         const val leakCanary = "2.9.1"
     }
 
@@ -48,6 +48,7 @@ object AndroidX {
 
     private object Versions {
         const val coreKtx = "1.7.0"
+        const val fragmentKtx = "1.4.1"
         const val appCompat = "1.4.1"
         const val material = "1.5.0"
         const val lifecycleRuntimeKtx = "2.4.1"
@@ -56,6 +57,8 @@ object AndroidX {
     }
 
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
+
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val lifecycleRuntimeKtx =

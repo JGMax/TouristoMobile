@@ -3,6 +3,7 @@ package ru.inteam.touristo.common.util
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DimenRes
+import androidx.fragment.app.Fragment
 
 val Context.displayWidth: Int
     get() = resources.displayMetrics.widthPixels
@@ -20,4 +21,8 @@ inline fun<reified T: Any> Context.systemService(): T {
 
 fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
+}
+
+fun Fragment.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(context, message, length).show()
 }

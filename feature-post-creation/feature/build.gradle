@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xcontext-receivers"
+        ]
+    }
+}
+
+dependencies {
+    implementation Libs.koin
+    implementation View.recyclerView
+    implementation View.constraintLayout
+    implementation AndroidX.lifecycleRuntimeKtx
+
+    implementation project(':common')
+    implementation project(':common-ui')
+    implementation project(':common-data')
+    implementation project(':ui-carousel')
+    implementation project(':ui-recycler')
+
+    implementation project(':feature-post-creation:domain')
+}

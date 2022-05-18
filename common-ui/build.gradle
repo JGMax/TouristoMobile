@@ -7,7 +7,6 @@ plugins {
 dependencies {
 
     implementation Libs.coil
-    implementation AndroidX.coreKtx
 
     implementation project(":common")
 
