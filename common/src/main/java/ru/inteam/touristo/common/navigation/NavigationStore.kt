@@ -8,8 +8,8 @@ class NavigationStore<S> internal constructor(
 ) {
     fun openScreen(screen: S) {
         when(val data = controller.screenProvider.provideScreen(screen)) {
-            is FragmentScreen -> controller.openScreen(data.fragment, screen)
-            is ActivityScreen -> controller.openScreen(data.intent)
+            is FragmentScreen -> controller.openScreen(data.fragment, data.params)
+            is ActivityScreen -> controller.openScreen(data.intent, data.params)
         }
     }
 

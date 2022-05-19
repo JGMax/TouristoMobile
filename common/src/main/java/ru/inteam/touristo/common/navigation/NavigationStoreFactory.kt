@@ -13,15 +13,14 @@ fun <S> FragmentActivity.NavigationStore(
         private val container = containerId
         override val screenProvider: ScreenProvider<S> = screenProvider()
 
-        override fun openScreen(fragment: Fragment, screen: S) {
-            // TODO navigation params
+        override fun openScreen(fragment: Fragment, params: FragmentLaunchParams) {
             supportFragmentManager.commit {
-                replace(container, fragment, screen.toString())
-                addToBackStack(screen.toString())
+                replace(container, fragment)
+                if (params.addToBackStack) addToBackStack(null)
             }
         }
 
-        override fun openScreen(intent: Intent) {
+        override fun openScreen(intent: Intent, params: ActivityLaunchParams) {
             startActivity(intent)
         }
 

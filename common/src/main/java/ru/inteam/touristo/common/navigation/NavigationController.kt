@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 
 interface NavigationController<S> {
     val screenProvider: ScreenProvider<S>
-    fun openScreen(fragment: Fragment, screen: S)
-    fun openScreen(intent: Intent)
+    fun openScreen(fragment: Fragment, params: FragmentLaunchParams)
+    fun openScreen(intent: Intent, params: ActivityLaunchParams)
     fun back()
 }
