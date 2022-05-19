@@ -24,11 +24,17 @@ fun View.margin(margin: Int) {
     layoutParams = marginLayoutParams
 }
 
-fun View.scale(scale: Float) {
-    ObjectAnimator.ofFloat(this, "scaleX", 1f, scale).apply {
-        duration = 300
+fun View.scale(scale: Float, animDuration: Long = 300) {
+    ObjectAnimator.ofFloat(this, "scaleX", this.scaleX, scale).apply {
+        duration = animDuration
     }.start()
-    ObjectAnimator.ofFloat(this, "scaleY", 1f, scale).apply {
-        duration = 300
+    ObjectAnimator.ofFloat(this, "scaleY", this.scaleY, scale).apply {
+        duration = animDuration
+    }.start()
+}
+
+fun View.alpha(alpha: Float, animDuration: Long = 300) {
+    ObjectAnimator.ofFloat(this, "alpha", this.alpha, alpha).apply {
+        duration = animDuration
     }.start()
 }

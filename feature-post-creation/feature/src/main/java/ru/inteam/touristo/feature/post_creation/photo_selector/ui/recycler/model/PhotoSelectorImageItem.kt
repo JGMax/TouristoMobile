@@ -2,6 +2,7 @@ package ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.mode
 
 import android.net.Uri
 import android.os.Bundle
+import ru.inteam.touristo.common.ui.view.alpha
 import ru.inteam.touristo.common.ui.view.scale
 import ru.inteam.touristo.feature.post_creation.R
 import ru.inteam.touristo.feature.post_creation.databinding.PhotoSelectorPhotoItemBinding
@@ -19,11 +20,15 @@ internal data class PhotoSelectorImageItem(
 ) : RecyclerItem() {
 
     override val layoutId: Int = R.layout.photo_selector_photo_item
+
     private val scale: Float
         get() = if (isSelected) 0.8f else 1.0f
+    private val alpha: Float
+        get() = if (isSelected) 0.55f else 1.0f
 
     override fun bind(holder: RecyclerViewHolder) = holder.binding<PhotoSelectorPhotoItemBinding> {
         image.scale(scale)
+        image.alpha(alpha)
         image.load(source)
     }
 
@@ -32,12 +37,16 @@ internal data class PhotoSelectorImageItem(
         payloads: MutableList<Any>
     ) = holder.binding<PhotoSelectorPhotoItemBinding> {
         val bundle = payloads.firstOrNull()
+
         if (bundle is Bundle) {
+
             if (bundle.getBoolean(SOURCE_PAYLOAD)) {
                 image.load(source)
             }
+
             if (bundle.getBoolean(SELECTED_PAYLOAD)) {
                 image.scale(scale)
+                image.alpha(alpha)
             }
         } else {
             super.bind(holder, payloads)
