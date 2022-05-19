@@ -13,7 +13,7 @@ sealed class PhotoSelectorEvent {
 sealed class PhotoSelectorUiEvent : PhotoSelectorEvent() {
     object LoadAll : PhotoSelectorUiEvent()
 
-    class ChangeIsMultiSelection(val isMultiSelection: Boolean) : PhotoSelectorUiEvent()
+    class ChangeIsMultiSelection(val isMultiselect: Boolean) : PhotoSelectorUiEvent()
     class LoadBucket(val bucket: String) : PhotoSelectorUiEvent()
     class ImageClicked(val imageId: String, val imageUri: Uri) : PhotoSelectorUiEvent()
 }

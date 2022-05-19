@@ -4,10 +4,12 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
+import android.view.View.MeasureSpec.EXACTLY
 import androidx.appcompat.widget.AppCompatImageView
 import coil.imageLoader
 import coil.request.Disposable
 import coil.request.ImageRequest
+import ru.inteam.touristo.common.util.min
 import ru.inteam.touristo.common_ui.BuildConfig
 import ru.inteam.touristo.common_ui.R
 import kotlin.math.min
@@ -22,8 +24,8 @@ class ContentImageView @JvmOverloads constructor(
     private var currentLoad: Disposable? = null
     private var onLoadListeners: MutableList<OnLoadListener> = mutableListOf()
     private var isRendering = false
-    var isSquare: Boolean
-    var isSmoothRender: Boolean
+    private var isSquare: Boolean
+    private var isSmoothRender: Boolean
 
     init {
         val adjustViewBoundsAttr = context.obtainStyledAttributes(
@@ -68,10 +70,10 @@ class ContentImageView @JvmOverloads constructor(
             return
         }
 
-        val width = MeasureSpec.getSize(widthMeasureSpec)
-        val height = MeasureSpec.getSize(heightMeasureSpec)
+        val width = MeasureSpec.getSize(widthMeasureSpec).takeIf { it > 0 }
+        val height = MeasureSpec.getSize(heightMeasureSpec).takeIf { it > 0 }
 
-        val size = min(width, height)
+        val size = min(width, height) ?: 0
         setMeasuredDimension(size, size)
     }
 
@@ -106,6 +108,7 @@ class ContentImageView @JvmOverloads constructor(
                         setImageResource(R.drawable.placeholder_image)
                     }
                 },
+                onSuccess = { _, _ -> isRendering = true },
                 onError = { _, result ->
                     if (BuildConfig.DEBUG) {
                         Log.e(TAG, result.throwable.stackTraceToString())

@@ -64,7 +64,7 @@ internal class PhotoSelectorReducer :
             is UiEvent.ImageClicked -> state {
                 val mutableSelected = selected.toMutableList()
                 val media = PhotoSelectorMedia(event.imageId, event.imageUri)
-                if (isMultiSelection) {
+                if (isMultiselect) {
                     when {
                         media !in mutableSelected -> {
                             if (mutableSelected.size == MAX_SELECTED_PHOTOS) {
@@ -86,10 +86,10 @@ internal class PhotoSelectorReducer :
             is UiEvent.ChangeIsMultiSelection -> {
                 state {
                     val currentSelected =
-                        if (isMultiSelection != event.isMultiSelection) listOf(selected.last())
+                        if (isMultiselect != event.isMultiselect) listOf(selected.last())
                         else selected
                     copy(
-                        isMultiSelection = event.isMultiSelection,
+                        isMultiselect = event.isMultiselect,
                         selected = currentSelected
                     )
                 }

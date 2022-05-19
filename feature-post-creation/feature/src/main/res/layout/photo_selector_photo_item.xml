@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ru.inteam.touristo.common_ui.images.ContentImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/image"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:square="true"
-    tools:src="@tools:sample/avatars" />
+    android:layout_height="wrap_content">
+
+    <ru.inteam.touristo.common_ui.images.ContentImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:square="true"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_num_bg"
+        android:gravity="center"
+        android:minWidth="18dp"
+        android:minHeight="18dp"
+        android:textAppearance="@style/TKit.TextAppearance.Caption"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        tools:text="10" />
+</androidx.constraintlayout.widget.ConstraintLayout>

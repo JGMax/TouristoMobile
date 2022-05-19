@@ -10,6 +10,7 @@ internal class PhotoSelectorDiffCallback : DiffUtil.ItemCallback<RecyclerItem>()
     companion object {
         const val SOURCE_PAYLOAD = "SOURCE_PAYLOAD"
         const val SELECTED_PAYLOAD = "SELECTED_PAYLOAD"
+        const val POSITION_PAYLOAD = "POSITION_PAYLOAD"
     }
 
     override fun areItemsTheSame(oldItem: RecyclerItem, newItem: RecyclerItem): Boolean {
@@ -24,15 +25,17 @@ internal class PhotoSelectorDiffCallback : DiffUtil.ItemCallback<RecyclerItem>()
         }
     }
 
-    override fun getChangePayload(oldItem: RecyclerItem, newItem: RecyclerItem): Any? {
+    override fun getChangePayload(oldItem: RecyclerItem, newItem: RecyclerItem): Any {
         val payloads = Bundle()
         if (oldItem is PhotoSelectorImageItem && newItem is PhotoSelectorImageItem) {
-            if (oldItem.source != newItem.source) {
-                payloads.putBoolean(SOURCE_PAYLOAD, true)
-            }
-            if (oldItem.isSelected != newItem.isSelected) {
-                payloads.putBoolean(SELECTED_PAYLOAD, true)
-            }
+            payloads.putBoolean(SOURCE_PAYLOAD, oldItem.source != newItem.source)
+
+            val isSelectedChanged = oldItem.selectedPosition * newItem.selectedPosition <= 0
+            payloads.putBoolean(SELECTED_PAYLOAD, isSelectedChanged)
+
+            val arePositionsChanged = oldItem.selectedPosition != newItem.selectedPosition
+            val areShowPositionChanged = oldItem.needShowPosition != newItem.needShowPosition
+            payloads.putBoolean(POSITION_PAYLOAD, arePositionsChanged || areShowPositionChanged)
         }
         return payloads
     }

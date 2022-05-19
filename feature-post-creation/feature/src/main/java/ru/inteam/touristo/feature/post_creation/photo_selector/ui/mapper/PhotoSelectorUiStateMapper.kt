@@ -58,8 +58,14 @@ internal class PhotoSelectorUiStateMapper(
 
         return PhotoSelectorUiState(
             buckets = buckets.filter { it != currentBucket },
-            content = currentGroup.map {
-                PhotoSelectorImageItem(it.id, it in selected, it.uri)
+            content = currentGroup.map { item ->
+                val selectedPosition = selected.indexOf(item) + 1
+                PhotoSelectorImageItem(
+                    item.id,
+                    state.isMultiselect,
+                    selectedPosition,
+                    item.uri
+                )
             },
             currentBucket = bucket,
             selected = selected

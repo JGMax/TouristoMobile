@@ -25,15 +25,19 @@ fun View.margin(margin: Int) {
 }
 
 fun View.scale(scale: Float, animDuration: Long = 300) {
-    ObjectAnimator.ofFloat(this, "scaleX", this.scaleX, scale).apply {
+    if (scale == scaleX && scale == scaleY) return
+
+    ObjectAnimator.ofFloat(this, "scaleX", scaleX, scale).apply {
         duration = animDuration
     }.start()
-    ObjectAnimator.ofFloat(this, "scaleY", this.scaleY, scale).apply {
+    ObjectAnimator.ofFloat(this, "scaleY", scaleY, scale).apply {
         duration = animDuration
     }.start()
 }
 
 fun View.alpha(alpha: Float, animDuration: Long = 300) {
+    if (alpha == this.alpha) return
+
     ObjectAnimator.ofFloat(this, "alpha", this.alpha, alpha).apply {
         duration = animDuration
     }.start()
