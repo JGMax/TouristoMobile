@@ -2,15 +2,18 @@ package ru.inteam.touristo.domain.post_creation.photo_selector.store
 
 import android.os.Build
 import ru.inteam.touristo.common.tea.Reducer
+import ru.inteam.touristo.common_data.state.LoadingState
 import ru.inteam.touristo.common_data.state.data
 import ru.inteam.touristo.common_data.state.map
+import ru.inteam.touristo.common_data.state.mapList
 import ru.inteam.touristo.common_media.shared_media.model.media.CRField.MediaField.BUCKET_DISPLAY_NAME
-import ru.inteam.touristo.common_media.shared_media.model.media.MediaResponse
+import ru.inteam.touristo.common_media.shared_media.model.media.MediaSelector
+import ru.inteam.touristo.common_media.shared_media.model.media.Selector
 import ru.inteam.touristo.common_media.shared_media.model.media.types.MediaType
-import ru.inteam.touristo.common_media.shared_media.util.getFieldValue
 import ru.inteam.touristo.domain.post_creation.common.model.PhotoSelectorMedia
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorAction.SelectedPhotosLimit
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorOperation.Load
+import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorOperation.LoadBuckets
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorUiEvent as UiEvent
 
 private const val MAX_SELECTED_PHOTOS = 10
@@ -18,33 +21,49 @@ private const val MAX_SELECTED_PHOTOS = 10
 internal class PhotoSelectorReducer :
     Reducer<PhotoSelectorState, PhotoSelectorEvent, PhotoSelectorAction, PhotoSelectorOperation>() {
 
-    private val allMediaSelector = if (Build.VERSION.SDK_INT >= 29) {
-        MediaType.Images(listOf(BUCKET_DISPLAY_NAME))
-    } else {
-        MediaType.Images()
+    private fun buildMediaSelector(bucket: String? = null): MediaSelector {
+        return if (Build.VERSION.SDK_INT >= 29) {
+            MediaType.Images(
+                requiredFields = listOf(BUCKET_DISPLAY_NAME),
+                selector = Selector.createEqual(BUCKET_DISPLAY_NAME, bucket)
+            )
+        } else {
+            MediaType.Images()
+        }
+    }
+
+    private fun buildBucketsSelector(): MediaSelector? {
+        return if (Build.VERSION.SDK_INT >= 29) {
+            MediaType.Images(requiredFields = listOf(BUCKET_DISPLAY_NAME))
+        } else {
+            null
+        }
     }
 
     override fun reduce(event: PhotoSelectorEvent) {
         when (event) {
+            is PhotoSelectorEvent.LoadingStatusBuckets -> {
+                state { copy(buckets = event.loadingState) }
+                if (event.loadingState is LoadingState.Loaded) {
+                    val currentBucket = event.loadingState.content.firstOrNull()
+                    state { copy(currentBucket = currentBucket) }
+                    operations(Load(buildMediaSelector(currentBucket)))
+                }
+            }
             is PhotoSelectorEvent.LoadingStatus -> {
                 state {
-                    val grouped = event.loadingState.map { list ->
-                        list.groupBy { it.fields.getFieldValue(BUCKET_DISPLAY_NAME) }
-                            .mapValues {
-                                it.value.map { value ->
-                                    PhotoSelectorMedia(value.id.toString(), value.contentUri)
-                                }
-                            }
+                    val media = event.loadingState.mapList {
+                        PhotoSelectorMedia(it.id.toString(), it.contentUri)
+                    }.map {
+                        if (loadingState is LoadingState.Loaded) {
+                            loadingState.content + it
+                        } else {
+                            it
+                        }
                     }
                     copy(
-                        loadingState = grouped,
-                        selected = selected.ifEmpty {
-                            val selectedResponse: MediaResponse? = event.loadingState.data?.first()
-                            val selectedMedia = selectedResponse?.run {
-                                PhotoSelectorMedia(id.toString(), contentUri)
-                            }
-                            listOfNotNull(selectedMedia)
-                        }
+                        loadingState = media,
+                        selected = selected.ifEmpty { listOfNotNull(media.data?.firstOrNull()) }
                     )
                 }
             }
@@ -55,11 +74,17 @@ internal class PhotoSelectorReducer :
     private fun reduceUiEvent(event: UiEvent) {
         when (event) {
             is UiEvent.LoadAll -> {
-                operations(Load(allMediaSelector))
+                val selector = buildBucketsSelector()
+                if (selector == null) {
+                    state { copy(buckets = LoadingState.Loaded(listOf(null))) }
+                    operations(Load(buildMediaSelector(null)))
+                } else {
+                    operations(LoadBuckets(selector))
+                }
             }
             is UiEvent.LoadBucket -> {
-                operations(Load(allMediaSelector))
-                state { copy(currentBucket = event.bucket) }
+                event.bucket?.let { state { copy(currentBucket = event.bucket) } }
+                operations(Load(buildMediaSelector(state.currentBucket)))
             }
             is UiEvent.ImageClicked -> state {
                 val mutableSelected = selected.toMutableList()

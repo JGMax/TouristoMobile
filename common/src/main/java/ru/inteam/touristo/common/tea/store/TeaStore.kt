@@ -16,9 +16,8 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
 
     private val stateFlow = MutableStateFlow(initialState)
     private val eventsFlow = MutableSharedFlow<Event>(replay = 1)
-    private val operationsChannel = Channel<Operation>(Channel.BUFFERED)
-    private val operationsFlow = operationsChannel.consumeAsFlow()
-    private val actionsChannel = Channel<Action>(Channel.BUFFERED)
+    private val operationsFlow = MutableSharedFlow<Operation>(replay = 1)
+    private val actionsChannel = Channel<Action>()
     private val actionsFlow = actionsChannel.consumeAsFlow()
 
     init {
@@ -26,9 +25,9 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
     }
 
     private fun start() {
-        startMiddlewares()
-        startOperationsFlow()
+        startActors()
         startEventsFlow()
+        startOperationsFlow()
     }
 
     private fun startOperationsFlow() {
@@ -39,15 +38,15 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
         eventsFlow
             .map { reducer.reduce(stateFlow.value, it) }
             .onEach { command -> command.state?.let { stateFlow.emit(it) } }
-            .onEach { command -> command.operations.forEach { operationsChannel.send(it) } }
+            .onEach { command -> command.operations.forEach { operationsFlow.emit(it) } }
             .onEach { command -> command.actions.forEach { actionsChannel.send(it) } }
             .launchIn(storeScope + Dispatchers.Unconfined)
     }
 
-    private fun startMiddlewares() {
-        actors(this).forEach { middleware ->
+    private fun startActors() {
+        actors(this).forEach { actor ->
             storeScope.launch(Dispatchers.Unconfined) {
-                middleware.process(operationsFlow)
+                actor.process(operationsFlow)
                     .onEach(eventsFlow::emit)
                     .launchIn(this)
             }

@@ -2,10 +2,7 @@ package ru.inteam.touristo.common_media.shared_media.content_resolver.presentati
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.*
 import ru.inteam.touristo.common.tea.Actor
 import ru.inteam.touristo.common.util.get
 import ru.inteam.touristo.common_media.shared_media.content_resolver.presentation.CRMediaDataEvent
@@ -18,6 +15,7 @@ import ru.inteam.touristo.common_media.shared_media.util.addIfNotExists
 internal class CRGetMediaActor(
     private val contentResolver: ContentResolver
 ) : Actor<CRMediaDataOperation, CRMediaDataEvent> {
+
     override fun process(operations: Flow<CRMediaDataOperation>): Flow<CRMediaDataEvent> {
         return operations
             .filterIsInstance<CRMediaDataOperation.GetMedia>()
@@ -28,9 +26,15 @@ internal class CRGetMediaActor(
     private fun getMedia(mediaSelector: MediaSelector): List<MediaResponse> {
         val fullProjection = mediaSelector.projection.toMutableList()
             .addIfNotExists(CRField._ID)
+        val mediaCollection = mediaSelector.limit.selection?.let {
+            mediaSelector.collection
+                .buildUpon()
+                .encodedQuery(it)
+                .build()
+        } ?: mediaSelector.collection
 
         val query = contentResolver.query(
-            mediaSelector.collection,
+            mediaCollection,
             fullProjection.map(CRField<*>::value).toTypedArray(),
             mediaSelector.selector.selection,
             mediaSelector.selector.args,

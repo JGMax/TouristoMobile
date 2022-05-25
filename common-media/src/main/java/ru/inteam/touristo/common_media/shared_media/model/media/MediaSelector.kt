@@ -7,6 +7,7 @@ interface MediaSelector {
     val collection: Uri
     val sortOrder: SortOrder
     val selector: Selector
+    val limit: Selector
 }
 
 @JvmInline
@@ -23,11 +24,17 @@ value class SortOrder private constructor(val order: String?) {
     }
 }
 
-class Selector private constructor(val selection: String?, val args: Array<out String>?) {
+class Selector private constructor(val selection: String?, val args: Array<out String>? = null) {
     companion object {
         @JvmStatic
-        fun createEqual(field: CRField<*>, arg: String): Selector {
+        fun createEqual(field: CRField<*>, arg: String?): Selector {
+            if (arg == null) return none
             return Selector("${field.value} = ?", arrayOf(arg))
+        }
+
+        @JvmStatic
+        fun createLimit(from: Long, to: Long): Selector {
+            return Selector("limit=$from,$to")
         }
 
         @JvmStatic

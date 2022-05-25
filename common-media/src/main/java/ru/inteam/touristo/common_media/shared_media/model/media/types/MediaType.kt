@@ -15,7 +15,8 @@ sealed class MediaType(
 
     class Images(
         requiredFields: List<CRField<*>> = emptyList(),
-        selector: Selector = Selector.none
+        selector: Selector = Selector.none,
+        override val limit: Selector = Selector.none
     ) : MediaType(SortOrder.desc(CRField.MediaField.DATE_MODIFIED), selector) {
 
         override val projection: List<CRField<*>> = requiredFields

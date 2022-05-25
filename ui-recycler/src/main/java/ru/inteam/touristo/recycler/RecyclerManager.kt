@@ -53,12 +53,12 @@ class RecyclerManagerBuilder internal constructor(private var recyclerView: Recy
     }
 
     fun enablePagination(
-        pageSize: Int = PaginationOwner.DEFAULT_PAGE_SIZE,
-        pageOffset: Int = PaginationOwner.DEFAULT_PAGE_OFFSET
+        pageSize: Long = PaginationOwner.DEFAULT_PAGE_SIZE,
+        pageOffset: Long = PaginationOwner.DEFAULT_PAGE_OFFSET
     ): RecyclerManagerBuilder {
         paginationOwner = object : PaginationOwner {
-            override val pageSize: Int = pageSize
-            override val pageOffset: Int = pageOffset
+            override val pageSize: Long = pageSize
+            override val pageOffset: Long = pageOffset
             override val pageEventFlow = MutableSharedFlow<PageEvent>(extraBufferCapacity = 10)
         }
         return this

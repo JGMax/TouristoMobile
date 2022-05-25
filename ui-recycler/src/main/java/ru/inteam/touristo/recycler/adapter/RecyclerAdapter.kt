@@ -16,7 +16,6 @@ import ru.inteam.touristo.recycler.list.DifferListOwner
 import ru.inteam.touristo.recycler.list.ListOwner
 import ru.inteam.touristo.recycler.list.SimpleListOwner
 import ru.inteam.touristo.recycler.pagination.PageEvent
-import ru.inteam.touristo.recycler.pagination.PageEvent.NeedMore
 import ru.inteam.touristo.recycler.pagination.PaginationOwner
 
 class RecyclerAdapter(
@@ -39,8 +38,15 @@ class RecyclerAdapter(
 
             if (position == NO_POSITION) return
 
-            if (position == itemCount - paginationOwner.pageOffset) {
-                paginationOwner.run { pageEventFlow.tryEmit(NeedMore(itemCount, pageSize)) }
+            if (position == (itemCount - paginationOwner.pageOffset).toInt()) {
+                paginationOwner.run {
+                    pageEventFlow.tryEmit(
+                        PageEvent(
+                            itemCount.toLong(),
+                            pageSize
+                        )
+                    )
+                }
             }
         } else {
             super.onViewAttachedToWindow(holder)

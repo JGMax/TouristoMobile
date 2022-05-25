@@ -2,6 +2,7 @@ package ru.inteam.touristo.feature.post_creation.photo_selector.ui.mapper
 
 import android.content.Context
 import ru.inteam.touristo.common.tea.UiStateMapper
+import ru.inteam.touristo.common_data.state.data
 import ru.inteam.touristo.common_data.state.map
 import ru.inteam.touristo.domain.post_creation.common.model.PhotoSelectorMedia
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorState
@@ -24,7 +25,7 @@ internal class PhotoSelectorUiStateMapper(
     }
 
     private fun mapLoadingState(
-        content: Map<String?, List<PhotoSelectorMedia>>?,
+        content: List<PhotoSelectorMedia>?,
         state: PhotoSelectorState,
         currentBucket: String?
     ): PhotoSelectorUiState {
@@ -40,25 +41,22 @@ internal class PhotoSelectorUiStateMapper(
     }
 
     private fun mapSuccessState(
-        content: Map<String?, List<PhotoSelectorMedia>>,
+        content: List<PhotoSelectorMedia>,
         state: PhotoSelectorState,
         currentBucket: String?
     ): PhotoSelectorUiState {
         val selected = state.selected
-        val buckets = content.keys.filterNotNull().sortedByDescending { content[it]?.size }
-
-        val mutableContent = content.toMutableMap()
+        val buckets = (state.buckets.data ?: emptyList()).filterNotNull().toMutableList()
 
         if (buckets.isEmpty()) {
-            mutableContent[noBucketsTitle] = content.values.flatten()
+            buckets.add(noBucketsTitle)
         }
 
         val bucket = currentBucket ?: buckets.firstOrNull() ?: noBucketsTitle
-        val currentGroup = mutableContent[bucket] ?: emptyList()
 
         return PhotoSelectorUiState(
-            buckets = buckets.filter { it != currentBucket },
-            content = currentGroup.map { item ->
+            buckets = buckets.filter { it != bucket },
+            content = content.map { item ->
                 val selectedPosition = selected.indexOf(item) + 1
                 PhotoSelectorImageItem(
                     item.id,
@@ -73,7 +71,7 @@ internal class PhotoSelectorUiStateMapper(
     }
 
     private fun mapErrorState(
-        content: Map<String?, List<PhotoSelectorMedia>>?,
+        content: List<PhotoSelectorMedia>?,
         e: Throwable,
         state: PhotoSelectorState,
         currentBucket: String?

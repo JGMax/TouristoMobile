@@ -60,7 +60,7 @@ class CRMediaDataStorage(
 
     @RequiresApi(Build.VERSION_CODES.P)
     override suspend fun getImageBitmap(uri: Uri): Bitmap = withContext(Dispatchers.IO) {
-        if (uri.scheme !in setOf(SCHEME_CONTENT, SCHEME_ANDROID_RESOURCE, SCHEME_FILE)) {
+        if (uri.scheme in setOf(SCHEME_CONTENT, SCHEME_ANDROID_RESOURCE, SCHEME_FILE)) {
             val source = ImageDecoder.createSource(contentResolver, uri)
             ImageDecoder.decodeBitmap(source)
         }

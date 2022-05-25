@@ -4,11 +4,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 
 interface PaginationOwner {
     companion object {
-        const val DEFAULT_PAGE_SIZE = 20
-        const val DEFAULT_PAGE_OFFSET = 10
+        const val DEFAULT_PAGE_SIZE = 20L
+        const val DEFAULT_PAGE_OFFSET = 10L
     }
 
-    val pageSize: Int
-    val pageOffset: Int
+    val pageSize: Long
+    val pageOffset: Long
     val pageEventFlow: MutableSharedFlow<PageEvent>
 }

@@ -71,3 +71,15 @@ inline fun <T, R> LoadingState<T>.map(
         else -> this as LoadingState<R>
     }
 }
+
+inline fun <T, R> LoadingState<List<T>>.mapList(
+    transform: (T) -> R
+): LoadingState<List<R>> {
+    @Suppress("UNCHECKED_CAST")
+    return when(this) {
+        is LoadingState.Loaded<List<T>> -> LoadingState.Loaded(content.map(transform))
+        is Loading.WithData<List<T>> -> Loading.WithData(content.map(transform))
+        is Failed.WithData<List<T>> -> Failed.WithData(e, content.map(transform))
+        else -> this as LoadingState<List<R>>
+    }
+}
