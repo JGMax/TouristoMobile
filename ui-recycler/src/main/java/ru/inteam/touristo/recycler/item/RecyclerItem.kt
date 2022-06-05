@@ -1,9 +1,10 @@
 package ru.inteam.touristo.recycler.item
 
+import androidx.viewbinding.ViewBinding
 import ru.inteam.touristo.recycler.holder.RecyclerViewHolder
+import ru.inteam.touristo.recycler.holder.ViewTypeInitializer
 
-@Suppress("UNCHECKED_CAST")
-abstract class RecyclerItem {
+abstract class RecyclerItem(val viewTypeFactory: (() -> ViewTypeInitializer)? = null) {
     abstract val layoutId: Int
     open val itemId: String = this::class.java.canonicalName ?: ""
 

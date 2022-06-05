@@ -19,13 +19,12 @@ import ru.inteam.touristo.carousel.decorations.CarouselCornersDecoration
 import ru.inteam.touristo.carousel.decorations.CarouselMarginsDecoration
 import ru.inteam.touristo.carousel.layout_manager.CarouselLayoutManager
 import ru.inteam.touristo.carousel.model.CarouselItem
-import ru.inteam.touristo.carousel.model.CarouselViewTypeFactory
 import ru.inteam.touristo.common.ui.view.viewScope
 import ru.inteam.touristo.recycler.RecyclerManager
 import ru.inteam.touristo.recycler.clicks.ClickEvent.ItemClick
 import ru.inteam.touristo.recycler.clicks.clicks
 import ru.inteam.touristo.recycler.diff_util.DefaultDiffCallback
-import ru.inteam.touristo.recycler.managerBuilder
+import ru.inteam.touristo.recycler.manager
 import ru.inteam.touristo.recycler.util.getViewByAdapterPosition
 import kotlin.math.abs
 
@@ -51,12 +50,11 @@ class CarouselView @JvmOverloads constructor(
 
         recycler.layoutParams = recyclerLayoutParams
         snapHelper = LinearSnapHelper().apply { attachToRecyclerView(recycler) }
-        recyclerManager = recycler.managerBuilder()
-            .layoutManager(CarouselLayoutManager(context))
-            .viewTypeFactory(CarouselViewTypeFactory())
-            .diffCallback(DefaultDiffCallback())
-            .decorations(CarouselMarginsDecoration(), CarouselCornersDecoration())
-            .build()
+        recyclerManager = recycler.manager {
+            layoutManager(CarouselLayoutManager(context))
+            diffCallback(DefaultDiffCallback())
+            decorations(CarouselMarginsDecoration(), CarouselCornersDecoration())
+        }
 
         recyclerManager.clicks<CarouselItem>()
             .onEach(::onCarouselItemClicked)
@@ -107,7 +105,7 @@ class CarouselView @JvmOverloads constructor(
         val prevItemCount = recyclerManager.itemCount
         recyclerManager.submitList(items) {
             doOnLayout {
-                if (recyclerManager.itemCount != 0) {
+                if (prevItemCount != recyclerManager.itemCount && recyclerManager.itemCount != 0) {
                     when {
                         prevItemCount != 0 -> {
                             recycler.smoothScrollToPosition(recyclerManager.itemCount - 1)

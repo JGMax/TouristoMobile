@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import ru.inteam.touristo.recycler.adapter.RecyclerAdapter
 import ru.inteam.touristo.recycler.clicks.ClicksOwner
-import ru.inteam.touristo.recycler.holder.ViewTypeFactory
 import ru.inteam.touristo.recycler.item.RecyclerItem
 import ru.inteam.touristo.recycler.pagination.PageEvent
 import ru.inteam.touristo.recycler.pagination.PaginationOwner
@@ -38,12 +37,6 @@ class RecyclerManagerBuilder internal constructor(private var recyclerView: Recy
         LinearLayoutManager(recyclerView?.context)
     private var adapter: RecyclerAdapter? = null
     private var decorations: Array<out RecyclerView.ItemDecoration> = emptyArray()
-    private var viewTypeFactory: ViewTypeFactory? = null
-
-    fun viewTypeFactory(viewTypeFactory: ViewTypeFactory): RecyclerManagerBuilder {
-        this.viewTypeFactory = viewTypeFactory
-        return this
-    }
 
     fun diffCallback(
         diffCallback: DiffUtil.ItemCallback<RecyclerItem>
@@ -80,7 +73,7 @@ class RecyclerManagerBuilder internal constructor(private var recyclerView: Recy
     }
 
     fun build(): RecyclerManager {
-        val adapter = adapter ?: RecyclerAdapter(paginationOwner, diffCallback, viewTypeFactory)
+        val adapter = adapter ?: RecyclerAdapter(paginationOwner, diffCallback)
         recyclerView?.let {
             it.layoutManager = layoutManager
             it.adapter = adapter

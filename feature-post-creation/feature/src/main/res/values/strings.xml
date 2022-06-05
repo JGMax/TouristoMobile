@@ -3,4 +3,7 @@
     <string name="photo_selector_title">Новая публикация</string>
     <string name="photo_selector_all_images_bucket">Галерея</string>
     <string name="photo_selector_limit_message">Можно выбрать не более %d фото</string>
+
+    <string name="location_selector_empty_location">Выберите локацию</string>
+    <string name="location_selector_distance">%.2fм</string>
 </resources>

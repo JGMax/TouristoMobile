@@ -12,7 +12,7 @@ import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.diff.
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback.Companion.SELECTED_PAYLOAD
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback.Companion.SOURCE_PAYLOAD
 import ru.inteam.touristo.recycler.holder.RecyclerViewHolder
-import ru.inteam.touristo.recycler.holder.ViewType
+import ru.inteam.touristo.recycler.holder.ViewTypeInitializer
 import ru.inteam.touristo.recycler.holder.binding
 import ru.inteam.touristo.recycler.item.RecyclerItem
 
@@ -21,7 +21,7 @@ internal data class PhotoSelectorImageItem(
     val needShowPosition: Boolean,
     val selectedPosition: Int,
     val source: Uri
-) : RecyclerItem() {
+) : RecyclerItem({ PhotoSelectorImageItemViewTypeInitializer() }) {
 
     override val layoutId: Int = R.layout.photo_selector_photo_item
 
@@ -67,7 +67,7 @@ internal data class PhotoSelectorImageItem(
     }
 }
 
-internal class PhotoSelectorImageItemViewType : ViewType() {
+internal class PhotoSelectorImageItemViewTypeInitializer : ViewTypeInitializer() {
 
     override fun init(
         holder: RecyclerViewHolder

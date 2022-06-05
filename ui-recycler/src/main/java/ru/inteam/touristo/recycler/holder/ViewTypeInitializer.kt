@@ -10,7 +10,7 @@ import ru.inteam.touristo.recycler.clicks.LongClickEvent
 import ru.inteam.touristo.recycler.clicks.LongClickEvent.ItemLongClick
 
 @Suppress("UNCHECKED_CAST")
-abstract class ViewType {
+abstract class ViewTypeInitializer {
     private lateinit var clicksManager: ClicksManager
 
     protected abstract fun init(holder: RecyclerViewHolder)

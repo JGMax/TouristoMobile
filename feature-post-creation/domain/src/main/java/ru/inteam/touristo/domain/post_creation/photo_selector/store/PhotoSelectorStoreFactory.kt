@@ -11,10 +11,10 @@ import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelecto
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorState as State
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorUiEvent as UiEvent
 
-typealias PhotoSelectorStore = Store<State, UiEvent, Nothing>
+typealias PhotoSelectorStore = Store<State, UiEvent, Action>
 
 class PhotoSelectorStoreFactory internal constructor(
-    private val repositoryFactory: PhotoSelectorRepositoryFactory
+    repositoryFactory: PhotoSelectorRepositoryFactory
 ) : TeaStoreFactory<State, Event, Action, Operation>(
     initialState = State(),
     reducer = PhotoSelectorReducer(),

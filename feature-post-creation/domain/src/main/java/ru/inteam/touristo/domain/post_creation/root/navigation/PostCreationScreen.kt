@@ -5,5 +5,5 @@ import ru.inteam.touristo.common.navigation.NavigationStore
 typealias PostCreationNavigation = NavigationStore<PostCreationScreen>
 
 enum class PostCreationScreen {
-    PHOTO_SELECTOR
+    PHOTO_SELECTOR, LOCATION_SELECTOR
 }

@@ -8,11 +8,11 @@ import ru.inteam.touristo.recycler.item.RecyclerItem
 
 class RecyclerViewHolder internal constructor(
     view: View,
-    viewType: ViewType?,
+    viewType: ViewTypeInitializer?,
     clicksManager: ClicksManager
 ) : RecyclerView.ViewHolder(view) {
 
-    internal lateinit var binding: ViewBinding
+    internal var binding: ViewBinding? = null
 
     init {
         viewType?.init(this, clicksManager)
@@ -28,4 +28,12 @@ class RecyclerViewHolder internal constructor(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T : ViewBinding> RecyclerViewHolder.binding(init: T.() -> Unit) = (binding as T).init()
+fun <T : ViewBinding> RecyclerViewHolder.binding(
+    bindingFactory: ((View) -> T)? = null,
+    init: T.() -> Unit
+) {
+    if (bindingFactory != null && binding == null) {
+        binding = bindingFactory(itemView)
+    }
+    (binding as T).init()
+}

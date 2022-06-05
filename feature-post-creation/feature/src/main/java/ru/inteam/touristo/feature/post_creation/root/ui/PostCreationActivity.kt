@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.launchIn
@@ -42,7 +43,7 @@ class PostCreationActivity : AppCompatActivity(R.layout.post_creation_activity),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        store.collect(lifecycleScope, get<PostCreationUiStateMapper>(), ::render, ::handleAction)
+        store.collect(lifecycleScope, PostCreationUiStateMapper(this), ::render, ::handleAction)
         store.dispatch(OpenCurrentScreen)
         attachToolbar(binding.toolbar)
         initViews()
@@ -62,13 +63,21 @@ class PostCreationActivity : AppCompatActivity(R.layout.post_creation_activity),
 
     private fun render(state: PostCreationUiState) {
         binding.carousel.submitItems(state.selected)
-        binding.selectionButton.backgroundTintList =
-            ColorStateList.valueOf(state.selectionButtonTint)
+        binding.selectionButton.apply {
+            backgroundTintList = ColorStateList.valueOf(state.selectionButtonTint)
+            isVisible = state.isSelectionButtonVisible
+        }
+        binding.accept.isVisible = state.isAcceptButtonVisible
     }
 
     private fun handleAction(action: PostCreationAction) {
         when (action) {
             is PostCreationAction.OpenScreen -> navigation.openScreen(action.screen)
         }
+    }
+
+    override fun onBackPressed() {
+        store.dispatch(OnBackPressed)
+        super.onBackPressed()
     }
 }

@@ -2,6 +2,8 @@
 <resources>
     <color name="neutral_50">#F2F7FF</color>
     <color name="neutral_100">#E9EEFF</color>
+    <color name="neutral_400">#A7ACBC</color>
+    <color name="neutral_500">#868B9B</color>
     <color name="neutral_800">#2E3340</color>
     <color name="neutral_900">#0E131F</color>
 </resources>

@@ -8,5 +8,7 @@ internal data class PostCreationUiState(
     val selected: List<CarouselItem>,
     @ColorInt
     val selectionButtonTint: Int,
-    val screen: PostCreationScreen
+    val screen: PostCreationScreen,
+    val isSelectionButtonVisible: Boolean,
+    val isAcceptButtonVisible: Boolean
 )

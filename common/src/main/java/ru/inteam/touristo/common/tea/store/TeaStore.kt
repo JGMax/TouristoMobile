@@ -1,7 +1,6 @@
 package ru.inteam.touristo.common.tea.store
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import ru.inteam.touristo.common.tea.Actor
 import ru.inteam.touristo.common.tea.Reducer
@@ -17,8 +16,7 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
     private val stateFlow = MutableStateFlow(initialState)
     private val eventsFlow = MutableSharedFlow<Event>(replay = 1)
     private val operationsFlow = MutableSharedFlow<Operation>(replay = 1)
-    private val actionsChannel = Channel<Action>()
-    private val actionsFlow = actionsChannel.consumeAsFlow()
+    private val actionsFlow = MutableSharedFlow<Action>(replay = 1)
 
     init {
         start()
@@ -39,7 +37,7 @@ class TeaStore<State : Any, Event : Any, Action : Any, Operation : Any> internal
             .map { reducer.reduce(stateFlow.value, it) }
             .onEach { command -> command.state?.let { stateFlow.emit(it) } }
             .onEach { command -> command.operations.forEach { operationsFlow.emit(it) } }
-            .onEach { command -> command.actions.forEach { actionsChannel.send(it) } }
+            .onEach { command -> command.actions.forEach { actionsFlow.emit(it) } }
             .launchIn(storeScope + Dispatchers.Unconfined)
     }
 

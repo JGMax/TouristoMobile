@@ -7,5 +7,7 @@ import ru.inteam.touristo.domain.post_creation.root.navigation.PostCreationScree
 data class PostCreationState(
     val isMultiSelection: Boolean = false,
     val selected: List<PhotoSelectorMedia> = emptyList(),
-    val screen: PostCreationScreen = PHOTO_SELECTOR
+    val screen: PostCreationScreen = PHOTO_SELECTOR,
+    val isNextScreenAvailable: Boolean = true,
+    val isMultiSelectionAvailable: Boolean = false
 )

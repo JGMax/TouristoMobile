@@ -12,6 +12,7 @@ android {
 dependencies {
     implementation AndroidX.lifecycleViewModelKtx
     implementation Libs.koin
+    implementation Libs.retrofit
 
     api project(':common-media')
 }

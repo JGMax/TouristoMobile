@@ -20,7 +20,9 @@ internal class PostCreationUiStateMapper(
             selectionButtonTint = multiSelectionEnabledButtonTint.takeIf {
                 state.isMultiSelection
             } ?: multiSelectionDisabledButtonTint,
-            screen = state.screen
+            screen = state.screen,
+            isSelectionButtonVisible = state.isMultiSelectionAvailable,
+            isAcceptButtonVisible = state.isNextScreenAvailable
         )
     }
 }

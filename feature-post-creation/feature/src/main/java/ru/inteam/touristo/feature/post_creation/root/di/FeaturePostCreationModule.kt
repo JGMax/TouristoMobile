@@ -9,5 +9,4 @@ import ru.inteam.touristo.feature.post_creation.root.ui.mapper.PostCreationUiSta
 
 fun featurePostCreationModule() = module {
     factoryOf(::PostCreationScreenProvider) bind ScreenProvider::class
-    factoryOf(::PostCreationUiStateMapper)
 }

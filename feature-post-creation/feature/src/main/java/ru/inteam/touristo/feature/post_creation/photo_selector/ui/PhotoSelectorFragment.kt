@@ -25,6 +25,7 @@ import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelecto
 import ru.inteam.touristo.domain.post_creation.photo_selector.store.PhotoSelectorUiEvent.*
 import ru.inteam.touristo.domain.post_creation.root.store.PostCreationStore
 import ru.inteam.touristo.domain.post_creation.root.store.PostCreationStoreFactory
+import ru.inteam.touristo.domain.post_creation.root.store.PostCreationUiEvent
 import ru.inteam.touristo.domain.post_creation.root.store.PostCreationUiEvent.Selected
 import ru.inteam.touristo.feature.post_creation.R
 import ru.inteam.touristo.feature.post_creation.databinding.PhotoSelectorFragmentBinding
@@ -34,7 +35,6 @@ import ru.inteam.touristo.feature.post_creation.photo_selector.ui.model.PhotoSel
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.model.PhotoSelectorUiState
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.decorations.PhotoSelectorItemDecoration
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.diff.PhotoSelectorDiffCallback
-import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.factory.PhotoSelectorViewTypeFactory
 import ru.inteam.touristo.feature.post_creation.photo_selector.ui.recycler.model.PhotoSelectorImageItem
 import ru.inteam.touristo.feature.post_creation.root.ui.PostCreationActivity.Companion.STORE_KEY
 import ru.inteam.touristo.recycler.RecyclerManager
@@ -65,8 +65,15 @@ class PhotoSelectorFragment : Fragment(R.layout.photo_selector_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViews()
 
-        store.collect(viewLifecycleScope, get<PhotoSelectorUiStateMapper>(), ::render, ::dispatch)
-        rootStore.collect(viewLifecycleScope, get<PhotoSelectorRootUiStateMapper>(), ::rootRender)
+        rootStore.dispatch(PostCreationUiEvent.ShowChangeSelectionStyleButton)
+
+        store.collect(
+            viewLifecycleScope,
+            PhotoSelectorUiStateMapper(requireContext()),
+            ::render,
+            ::dispatch
+        )
+        rootStore.collect(viewLifecycleScope, PhotoSelectorRootUiStateMapper(), ::rootRender)
 
         if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             store.dispatch(LoadAll)
@@ -79,7 +86,6 @@ class PhotoSelectorFragment : Fragment(R.layout.photo_selector_fragment) {
         recycler = binding.recycler.manager {
             decorations(PhotoSelectorItemDecoration())
             diffCallback(PhotoSelectorDiffCallback())
-            viewTypeFactory(PhotoSelectorViewTypeFactory())
             layoutManager(GridLayoutManager(requireContext(), 4))
         }
 

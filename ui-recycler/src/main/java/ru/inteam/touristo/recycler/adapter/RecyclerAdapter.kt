@@ -10,7 +10,7 @@ import ru.inteam.touristo.common.ui.view.inflate
 import ru.inteam.touristo.recycler.clicks.ClicksManager
 import ru.inteam.touristo.recycler.clicks.ClicksOwner
 import ru.inteam.touristo.recycler.holder.RecyclerViewHolder
-import ru.inteam.touristo.recycler.holder.ViewTypeFactory
+import ru.inteam.touristo.recycler.holder.ViewTypeInitializer
 import ru.inteam.touristo.recycler.item.RecyclerItem
 import ru.inteam.touristo.recycler.list.DifferListOwner
 import ru.inteam.touristo.recycler.list.ListOwner
@@ -20,11 +20,11 @@ import ru.inteam.touristo.recycler.pagination.PaginationOwner
 
 class RecyclerAdapter(
     private val paginationOwner: PaginationOwner?,
-    diffCallback: DiffUtil.ItemCallback<RecyclerItem>?,
-    private val viewTypeFactory: ViewTypeFactory?
+    diffCallback: DiffUtil.ItemCallback<RecyclerItem>?
 ) : RecyclerView.Adapter<RecyclerViewHolder>(), ClicksOwner {
 
     override val clicksManager = ClicksManager(this)
+    private val viewTypes: MutableMap<Int, () -> ViewTypeInitializer> = mutableMapOf()
 
     val pageFlow: Flow<PageEvent>? = paginationOwner?.pageEventFlow?.asSharedFlow()
 
@@ -57,11 +57,20 @@ class RecyclerAdapter(
         listOwner.submitList(list, onCommit)
     }
 
-    override fun getItemViewType(position: Int): Int = listOwner[position].layoutId
+    override fun getItemViewType(position: Int): Int {
+        val item = listOwner[position]
+        if (item.viewTypeFactory != null && item.layoutId !in viewTypes) {
+            viewTypes[item.layoutId] = item.viewTypeFactory
+        }
+        return item.layoutId
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val initializer = viewTypeFactory?.createViewType(viewType)
-        return RecyclerViewHolder(parent.inflate(viewType), initializer, clicksManager)
+        return RecyclerViewHolder(
+            parent.inflate(viewType),
+            viewTypes[viewType]?.invoke(),
+            clicksManager
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {

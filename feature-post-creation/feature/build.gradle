@@ -22,6 +22,6 @@ dependencies {
     implementation project(':common-data')
     implementation project(':ui-carousel')
     implementation project(':ui-recycler')
-
     implementation project(':feature-post-creation:domain')
+
 }
