@@ -3,13 +3,13 @@ package ru.inteam.touristo.common.tea
 import ru.inteam.touristo.common.tea.model.Command
 
 abstract class Reducer<State : Any, Event : Any, Action : Any, Operation : Any> {
-    lateinit var state: State
+    protected lateinit var state: State
     private val operations = mutableListOf<Operation>()
     private val actions = mutableListOf<Action>()
 
     protected abstract fun reduce(event: Event)
 
-    fun reduce(state: State, event: Event): Command<State, Operation, Action> {
+    internal fun reduce(state: State, event: Event): Command<State, Operation, Action> {
         this.state = state
         reduce(event)
         val cmd = build()

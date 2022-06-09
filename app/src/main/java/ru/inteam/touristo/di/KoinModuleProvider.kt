@@ -4,10 +4,10 @@ import org.koin.core.module.Module
 import ru.inteam.touristo.data.post_creation.location_selector.di.dataLocationSelectorModule
 import ru.inteam.touristo.data.post_creation.photo_selector.di.dataPhotoSelectorModule
 import ru.inteam.touristo.di.application.applicationModule
-import ru.inteam.touristo.domain.post_creation.location_selector.di.domainLocationSelectorModule
-import ru.inteam.touristo.domain.post_creation.photo_selector.di.domainPhotoSelectorModule
-import ru.inteam.touristo.domain.post_creation.root.di.domainPostCreationModule
-import ru.inteam.touristo.feature.post_creation.root.di.featurePostCreationModule
+import ru.inteam.touristo.presentation.post_creation.location_selector.di.domainLocationSelectorModule
+import ru.inteam.touristo.presentation.post_creation.photo_selector.di.domainPhotoSelectorModule
+import ru.inteam.touristo.presentation.post_creation.root.di.domainPostCreationModule
+import ru.inteam.touristo.view.post_creation.root.di.featurePostCreationModule
 
 
 object KoinModuleProvider {

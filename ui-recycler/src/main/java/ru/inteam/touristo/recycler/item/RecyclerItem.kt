@@ -1,6 +1,5 @@
 package ru.inteam.touristo.recycler.item
 
-import androidx.viewbinding.ViewBinding
 import ru.inteam.touristo.recycler.holder.RecyclerViewHolder
 import ru.inteam.touristo.recycler.holder.ViewTypeInitializer
 

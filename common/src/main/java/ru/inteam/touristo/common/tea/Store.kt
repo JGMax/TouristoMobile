@@ -19,14 +19,14 @@ abstract class Store<out State : Any, in Event : Any, out Action : Any> : ViewMo
         viewModelStore.clear()
     }
 
-    abstract fun CoroutineScope.renderState(renderer: (State) -> Unit): Job
+    internal abstract fun CoroutineScope.renderState(renderer: (State) -> Unit): Job
 
-    abstract fun <UiState : Any> CoroutineScope.renderState(
+    internal abstract fun <UiState : Any> CoroutineScope.renderState(
         mapper: UiStateMapper<State, UiState>,
         renderer: (UiState) -> Unit
     ): Job
 
-    abstract fun CoroutineScope.dispatchAction(dispatcher: (Action) -> Unit): Job
+    internal abstract fun CoroutineScope.dispatchAction(dispatcher: (Action) -> Unit): Job
 
     abstract fun dispatch(event: Event)
 }

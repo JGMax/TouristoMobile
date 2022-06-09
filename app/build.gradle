@@ -38,6 +38,6 @@ dependencies {
     implementation project(':ui-carousel')
 
     implementation project(':feature-post-creation:data')
-    implementation project(':feature-post-creation:domain')
-    implementation project(':feature-post-creation:feature')
+    implementation project(':feature-post-creation:presentation')
+    implementation project(':feature-post-creation:view')
 }

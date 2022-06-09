@@ -13,7 +13,7 @@ import ru.inteam.touristo.common.ui.network.NetworkAppCompatActivity
 import ru.inteam.touristo.common_data.state.data
 import ru.inteam.touristo.common_media.shared_media.content_resolver.storage.CRMediaDataStorage
 import ru.inteam.touristo.common_media.shared_media.model.media.types.MediaType
-import ru.inteam.touristo.feature.post_creation.root.ui.PostCreationActivity
+import ru.inteam.touristo.view.post_creation.root.ui.PostCreationActivity
 
 class MainActivity : NetworkAppCompatActivity(R.layout.activity_main) {
 

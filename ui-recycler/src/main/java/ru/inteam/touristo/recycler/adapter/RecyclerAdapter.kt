@@ -40,12 +40,7 @@ class RecyclerAdapter(
 
             if (position == (itemCount - paginationOwner.pageOffset).toInt()) {
                 paginationOwner.run {
-                    pageEventFlow.tryEmit(
-                        PageEvent(
-                            itemCount.toLong(),
-                            pageSize
-                        )
-                    )
+                    pageEventFlow.tryEmit(PageEvent(itemCount.toLong(), pageSize))
                 }
             }
         } else {
