@@ -29,6 +29,19 @@ object Libs {
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
 }
 
+object Tests {
+    private object Versions {
+        const val koTest = "5.3.0"
+        const val turbine = "0.8.0"
+    }
+
+    const val koTest = "io.kotest:kotest-runner-junit5:${Versions.koTest}"
+    const val koTestAssertions = "io.kotest:kotest-assertions-core:${Versions.koTest}"
+    const val koTestFramework = "io.kotest:kotest-framework-api-jvm:${Versions.koTest}"
+
+    const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
+}
+
 object View {
 
     private object Versions {

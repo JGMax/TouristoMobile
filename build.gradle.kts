@@ -24,6 +24,10 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 fun BaseExtension.baseConfig() {
 
     compileSdkVersion(AppConfig.compileSdk)
@@ -33,8 +37,13 @@ fun BaseExtension.baseConfig() {
         targetSdk = AppConfig.targetSdk
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        testOptions {
+            unitTests.all {
+                it.useJUnitPlatform()
+            }
+        }
     }
 
     compileOptions.apply {

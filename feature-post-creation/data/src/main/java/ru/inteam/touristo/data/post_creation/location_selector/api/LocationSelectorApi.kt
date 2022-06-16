@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 interface LocationSelectorApi {
 
-    @GET("locations")
+    @GET("locations/near")
     fun getClosestLocations(
         @Query("lat") lat: BigDecimal,
         @Query("lng") lng: BigDecimal

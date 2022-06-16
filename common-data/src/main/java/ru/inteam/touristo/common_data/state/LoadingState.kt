@@ -13,9 +13,9 @@ sealed class LoadingState<T> {
 
     data class Loaded<T>(val content: T) : LoadingState<T>()
 
-    sealed class Failed<T>(val e: Exception) : LoadingState<T>() {
-        class Default<T>(e: Exception) : Failed<T>(e)
-        class WithData<T>(e: Exception, val content: T) : Failed<T>(e)
+    sealed class Failed<T>(open val e: Exception) : LoadingState<T>() {
+        data class Default<T>(override val e: Exception) : Failed<T>(e)
+        data class WithData<T>(override val e: Exception, val content: T) : Failed<T>(e)
     }
 }
 

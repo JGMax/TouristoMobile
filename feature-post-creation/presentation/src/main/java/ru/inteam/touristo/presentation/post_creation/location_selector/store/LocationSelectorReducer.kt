@@ -14,19 +14,17 @@ internal class LocationSelectorReducer :
 
     override fun reduce(event: LocationSelectorEvent) {
         when (event) {
-            is LocationSelectorEvent.LoadingStatus -> {
-                state {
-                    copy(
-                        loadingState = event.loadingState.mapList {
-                            LocationModel(
-                                id = it.id,
-                                title = it.title,
-                                address = it.address,
-                                distance = it.distance
-                            )
-                        }
-                    )
-                }
+            is LocationSelectorEvent.LoadingStatus -> state {
+                copy(
+                    loadingState = event.loadingState.mapList {
+                        LocationModel(
+                            id = it.id,
+                            title = it.title,
+                            address = it.address,
+                            distance = it.distance
+                        )
+                    }
+                )
             }
             is LocationSelectorUiEvent -> reduceUiEvent(event)
         }

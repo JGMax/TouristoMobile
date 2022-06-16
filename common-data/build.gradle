@@ -6,7 +6,10 @@ plugins {
 
 android {
     kotlinOptions {
-        freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+        freeCompilerArgs += [
+                "-Xcontext-receivers",
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        ]
     }
 }
 
@@ -15,4 +18,9 @@ dependencies {
     implementation Libs.coroutines
 
     implementation project(":common")
+
+    testImplementation Tests.koTest
+    testImplementation Tests.koTestAssertions
+    testImplementation Tests.koTestFramework
+    testImplementation Tests.turbine
 }

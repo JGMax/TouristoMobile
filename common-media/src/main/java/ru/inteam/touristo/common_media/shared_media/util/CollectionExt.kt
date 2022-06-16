@@ -12,8 +12,3 @@ fun <T> MutableCollection<T>.addIfNotExists(value: T): MutableCollection<T> {
 inline fun <reified T : Any> Map<CRField<*>, *>.getFieldValue(mediaField: CRField<T>): T? {
     return get(mediaField) as? T
 }
-
-context(Map<String, Any>)
-inline fun <reified T : Any> String.value(): T {
-    return get(this) as T
-}
